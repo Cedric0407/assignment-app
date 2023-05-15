@@ -29,5 +29,9 @@
         <mat-divider></mat-divider>
 
     </mat-list>
-    <app-assignment-detail [assignmentTransmis]="assignmentSelectionne"></app-assignment-detail>
+    <app-assignment-detail 
+         [assignmentTransmis]="assignmentSelectionne"
+         (deleteAssignment)="onDeleteAssignment()"
+    >
+</app-assignment-detail>
 </main>
