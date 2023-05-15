@@ -1,5 +1,9 @@
-.form{
-    display: flex;
-    flex-direction: column;
-    margin: 10px;
+
+.container {
+    display:flex;
+    flex-direction:column;
+}
+
+.ajouterBtn {
+    align-self: flex-end;
 }
