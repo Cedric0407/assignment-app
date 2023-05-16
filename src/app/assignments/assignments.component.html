@@ -1,7 +1,7 @@
 
 <h2>{{titre}}</h2>
 <app-add-assignment *ngIf="formVisible"
-                (nouvelAssignment)="onNouvelAssignment($event)"
+                (assignmentAdded)="formVisible=false"
 >
 
 </app-add-assignment>
@@ -31,7 +31,6 @@
     </mat-list>
     <app-assignment-detail 
          [assignmentTransmis]="assignmentSelectionne"
-         (deleteAssignment)="onDeleteAssignment()"
     >
 </app-assignment-detail>
 </main>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input} from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 
@@ -10,8 +10,6 @@ import { AssignmentsService } from 'src/app/shared/assignments.service';
 export class AssignmentDetailComponent {
   @Input()
   assignmentTransmis?:Assignment;
-  @Output()
-  deleteAssignment = new EventEmitter();
 
   constructor(private assignmentsService:AssignmentsService) { }
 
@@ -20,11 +18,14 @@ export class AssignmentDetailComponent {
 
     console.log("Suppression de l'assignment " + this.assignmentTransmis.nom);
   
-    // On émet l'événement deleteAssignment
-    this.deleteAssignment.emit();
-
-    // Pour cacher le detail, on met l'assignment à null
-    this.assignmentTransmis = undefined;
+    // on demande au service la suppression de l'assignment
+    this.assignmentsService.deleteAssignment(this.assignmentTransmis)
+    .subscribe(message => {
+      console.log(message);
+       // Pour cacher le detail, on met l'assignment à null
+      this.assignmentTransmis = undefined;
+    });
+   
   }
 
   onAssignmentRendu() { 

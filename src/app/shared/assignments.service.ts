@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
 import { Observable, of } from 'rxjs';
+import { LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ assignments:Assignment[] = [
     rendu:true
   }
 ]
-  constructor() { }
+  constructor(private loggingService:LoggingService) { }
 
   getAssignments():Observable<Assignment[]> {
     // normalement on doit envoyer une requête HTTP
@@ -44,6 +45,7 @@ assignments:Assignment[] = [
     this.assignments.push(assignment);
     // on retourne un message de succès à travers
     // un Observable
+    this.loggingService.log(assignment.nom, 'ajouté');
     return of(`Assignment ${assignment.nom} ajouté avec succès`);
   }
 
@@ -54,8 +56,20 @@ assignments:Assignment[] = [
     // dans la version tableau : rien à faire (pourquoi ? Parceque assignment
     // est déjà un élément du tableau this.assignments)
 
+    this.loggingService.log(assignment.nom, 'modifié');
+
     return of(`Assignment ${assignment.nom} modifié avec succès`)
   }
 
-  
+  deleteAssignment(assignment:Assignment):Observable<string> {
+      // pour supprimer on passe à la méthode splice
+    // l'index de l'assignment à supprimer et 
+    // le nombre d'éléments à supprimer (ici 1)
+    const index = this.assignments.indexOf(assignment);
+    this.assignments.splice(index, 1);
+
+    this.loggingService.log(assignment.nom, 'supprimé');
+
+    return of('Assignment supprimé avec succès')
+  }
 }
