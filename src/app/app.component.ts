@@ -1,25 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from './shared/auth.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Application de gestion de devoirs à rendre';
+  userConnected?: any;
+  currentRoute = "";
+  constructor(public authservice: AuthService, private router: Router) { }
 
-  constructor(private authService:AuthService, private router:Router) {}
+  ngOnInit(): void {
+    this.authservice.getUserConnected().subscribe(user => {
+      this.userConnected = user;
+    });
+    this.router.events.subscribe(event => {
+      if(event instanceof NavigationEnd) {
+        console.log(event.url);
+        this.currentRoute = event.url;
+      }
+    });
+  }
 
-  login() {
-    // utilise l'authService pour se connecter
-    if(!this.authService.loggedIn) {
-      this.authService.logIn();
-    } else {
-      this.authService.logOut();
-      // et on navigue vers la page d'accueil
-      this.router.navigate(["/home"]);
-    }
+  logoout(): void {
+    this.authservice.logOut();
+    this.router.navigate([""])
   }
 }

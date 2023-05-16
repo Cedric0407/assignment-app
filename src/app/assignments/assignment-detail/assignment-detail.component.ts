@@ -11,11 +11,12 @@ import { AuthService } from 'src/app/shared/auth.service';
 })
 export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis?: Assignment;
+  isAdmin = false;
 
   constructor(private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
     private router: Router,
-    private authService:AuthService) { }
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     // appelée avant le rendu du composant
@@ -29,6 +30,11 @@ export class AssignmentDetailComponent implements OnInit {
       .subscribe(assignment => {
         this.assignmentTransmis = assignment;
       });
+
+    this.authService.isAdmin().then(resp => {
+      this.isAdmin = resp;
+      console.log("this.isAdmin", this.isAdmin)
+    })
   }
 
   onDeleteAssignment() {
@@ -68,13 +74,13 @@ export class AssignmentDetailComponent implements OnInit {
     // this.router.navigate([path]);
     // c'est pour vous montrer la syntaxe avec [...]
     this.router.navigate(["/assignments", this.assignmentTransmis?.id, "edit"],
-    {
-      queryParams: {
-        nom: this.assignmentTransmis?.nom,
-        matiere: "Angular"
-      },
-      fragment: "edition"
-    });
+      {
+        queryParams: {
+          nom: this.assignmentTransmis?.nom,
+          matiere: "Angular"
+        },
+        fragment: "edition"
+      });
   }
 
   isLogged() {

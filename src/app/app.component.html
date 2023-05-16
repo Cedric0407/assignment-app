@@ -1,9 +1,22 @@
-<h1>
-    <nav>
-        <a routerLink="/home">{{title}}</a>
-    </nav>
-</h1>
-<mat-slide-toggle (click)="login()">Login</mat-slide-toggle>
+<div *ngIf="currentRoute !== '/login'">
+    <h1>
+        <nav>
+            <a routerLink=" /home">{{title}}</a>
+        </nav>
+    </h1>
+    <div class="log-btn">
+        <a routerLink="/login" *ngIf="!authservice.userConnected">
+            <button mat-raised-button color="accent"> Se connecter
+            </button>
+        </a>
+
+        <button mat-raised-button color="danger" *ngIf="authservice.userConnected" (click)="logoout()"> Se déconnecter
+        </button>
+    </div>
+    
+</div>
+
+
 <!-- Indique que le composant affiché sera celui
      correspondant à l'URL courant
 -->
