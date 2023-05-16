@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-assignment',
@@ -14,7 +15,8 @@ export class AddAssignmentComponent {
   dateDeRendu!: Date;
 
 
-  constructor(private assignmentsService: AssignmentsService) { }
+  constructor(private assignmentsService: AssignmentsService,
+              private router:Router) { }
 
   onSubmit(event: any) {
     // On vérifie que les champs ne sont pas vides
@@ -35,7 +37,7 @@ export class AddAssignmentComponent {
 
         // On va naviguer vers la page d'accueil pour afficher la liste
         // des assignments
-        
+        this.router.navigate(["/home"]);
 
       });
   }

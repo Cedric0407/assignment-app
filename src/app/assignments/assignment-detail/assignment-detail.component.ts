@@ -1,7 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -9,10 +9,11 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./assignment-detail.component.css']
 })
 export class AssignmentDetailComponent implements OnInit {
-  assignmentTransmis?:Assignment;
+  assignmentTransmis?: Assignment;
 
-  constructor(private assignmentsService:AssignmentsService,
-              private route:ActivatedRoute) { }
+  constructor(private assignmentsService: AssignmentsService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
     // appelée avant le rendu du composant
@@ -23,35 +24,54 @@ export class AssignmentDetailComponent implements OnInit {
 
     // on va chercher l'assignment à afficher
     this.assignmentsService.getAssignment(id)
-    .subscribe(assignment => {
-      this.assignmentTransmis = assignment;
-    });
+      .subscribe(assignment => {
+        this.assignmentTransmis = assignment;
+      });
   }
 
   onDeleteAssignment() {
-    if(!this.assignmentTransmis) return;
+    if (!this.assignmentTransmis) return;
 
     console.log("Suppression de l'assignment " + this.assignmentTransmis.nom);
-  
+
     // on demande au service la suppression de l'assignment
     this.assignmentsService.deleteAssignment(this.assignmentTransmis)
-    .subscribe(message => {
-      console.log(message);
-       // Pour cacher le detail, on met l'assignment à null
-      this.assignmentTransmis = undefined;
-    });
-   
+      .subscribe(message => {
+        console.log(message);
+        // Pour cacher le detail, on met l'assignment à null
+        this.assignmentTransmis = undefined;
+
+        // et on navigue vers la page d'accueil
+        this.router.navigate(["/home"]);
+      });
+
   }
 
-  onAssignmentRendu() { 
-    if(!this.assignmentTransmis) return;
+  onAssignmentRendu() {
+    if (!this.assignmentTransmis) return;
 
     this.assignmentTransmis.rendu = true;
 
     // on appelle le service pour faire l'update
     this.assignmentsService.updateAssignment(this.assignmentTransmis)
-    .subscribe(message => {
-      console.log(message);
+      .subscribe(message => {
+        console.log(message);
+      });
+  }
+
+  onEditAssignment() {
+    // navigation vers la page edit
+    // équivalent à "/assignment/2/edit" par exemple
+    // path = "/assignment/" + this.assignmentTransmis?.id + "/edit";
+    // this.router.navigate([path]);
+    // c'est pour vous montrer la syntaxe avec [...]
+    this.router.navigate(["/assignments", this.assignmentTransmis?.id, "edit"],
+    {
+      queryParams: {
+        nom: this.assignmentTransmis?.nom,
+        matiere: "Angular"
+      },
+      fragment: "edition"
     });
   }
 }
