@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/shared/auth.service';
 
 @Component({
   selector: 'app-assignment-detail',
@@ -13,7 +14,8 @@ export class AssignmentDetailComponent implements OnInit {
 
   constructor(private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private authService:AuthService) { }
 
   ngOnInit(): void {
     // appelée avant le rendu du composant
@@ -73,5 +75,10 @@ export class AssignmentDetailComponent implements OnInit {
       },
       fragment: "edition"
     });
+  }
+
+  isLogged() {
+    // renvoie si on est loggé ou pas
+    return this.authService.loggedIn;
   }
 }
