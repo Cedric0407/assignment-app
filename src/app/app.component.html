@@ -13,9 +13,14 @@
         <button mat-raised-button color="danger" *ngIf="authservice.userConnected" (click)="logoout()"> Se déconnecter
         </button>
     </div>
-    
+
 </div>
 
+<p>
+    <button mat-raised-button color="primary" (click)="creerDonneesDeTest()">
+        Peupler BD avec données de test
+    </button>
+</p>
 
 <!-- Indique que le composant affiché sera celui
      correspondant à l'URL courant

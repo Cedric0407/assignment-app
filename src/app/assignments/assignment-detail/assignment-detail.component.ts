@@ -73,7 +73,7 @@ export class AssignmentDetailComponent implements OnInit {
     // path = "/assignment/" + this.assignmentTransmis?.id + "/edit";
     // this.router.navigate([path]);
     // c'est pour vous montrer la syntaxe avec [...]
-    this.router.navigate(["/assignments", this.assignmentTransmis?.id, "edit"],
+    this.router.navigate(["/assignments", this.assignmentTransmis?._id, "edit"],
       {
         queryParams: {
           nom: this.assignmentTransmis?.nom,
