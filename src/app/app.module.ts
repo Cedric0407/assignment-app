@@ -21,7 +21,26 @@ import { FormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
+import { Routes, RouterModule } from '@angular/router';
 
+const routes: Routes = [
+  {
+    path: '',
+    component: AssignmentsComponent
+  },
+  {
+    path: 'home',
+    component: AssignmentsComponent
+  },
+  {
+    path: 'add',
+    component: AddAssignmentComponent
+  },
+  {
+    path: 'assignments/:id',
+    component: AssignmentDetailComponent
+  }
+]
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +52,8 @@ import { AddAssignmentComponent } from './assignments/add-assignment/add-assignm
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule, MatNativeDateModule,
+    FormsModule, RouterModule.forRoot(routes),
+    MatNativeDateModule,
     MatButtonModule, MatIconModule, MatDividerModule,
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule

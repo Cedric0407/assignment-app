@@ -10,16 +10,19 @@ export class AssignmentsService {
 // tableau de devoirs à rendre
 assignments:Assignment[] = [
   {
+    id:1,
     nom: "Devoir Angular de Mr Buffa",
     dateDeRendu: new Date("2023-06-01"),
     rendu:false
   },
   {
+    id:2,
     nom: "Devoir Grails de Mr Galli",
     dateDeRendu: new Date("2023-04-15"),
     rendu:true
   },
   {
+    id:3,
     nom: "Devoir Big Data de Mr Mopolo",
     dateDeRendu: new Date("2023-02-10"),
     rendu:true
@@ -36,6 +39,16 @@ assignments:Assignment[] = [
     // of() permet de créer un Observable qui va
     // contenir les données du tableau assignments
     return of(this.assignments);
+  }
+
+  getAssignment(id:number):Observable<Assignment|undefined> {
+    // Plus tard on utilisera un Web Service et une BD
+    
+    // On va chercher dans le tableau des assignments
+    // l'assignment dont l'id est celui passé en paramètre
+    const assignment = this.assignments.find(a => a.id === id);
+    // on retourne cet assignment encapsulé dans un Observable
+    return of(assignment);
   }
 
   addAssignment(assignment:Assignment):Observable<string> {

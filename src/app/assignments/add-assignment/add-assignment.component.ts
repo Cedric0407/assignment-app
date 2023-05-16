@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 
@@ -8,8 +8,6 @@ import { AssignmentsService } from 'src/app/shared/assignments.service';
   styleUrls: ['./add-assignment.component.css']
 })
 export class AddAssignmentComponent {
-  @Output()
-  assignmentAdded = new EventEmitter();
 
   // champs du formulaire
   nomDevoir = "";
@@ -24,6 +22,8 @@ export class AddAssignmentComponent {
     if (this.dateDeRendu === undefined) return;
 
     let nouvelAssignment = new Assignment();
+    // génération d'id, plus tard ce sera fait dans la BD
+    nouvelAssignment.id = Math.abs(Math.random() * 1000000000000000);
     nouvelAssignment.nom = this.nomDevoir;
     nouvelAssignment.dateDeRendu = this.dateDeRendu;
     nouvelAssignment.rendu = false;
@@ -33,9 +33,9 @@ export class AddAssignmentComponent {
       .subscribe(message => {
         console.log(message);
 
-        // on emet un event pour afficher la liste et
-        // cacher le formulaire
-        this.assignmentAdded.emit();
+        // On va naviguer vers la page d'accueil pour afficher la liste
+        // des assignments
+        
 
       });
   }

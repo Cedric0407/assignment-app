@@ -1,17 +1,32 @@
-import { Component, EventEmitter, Input} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-assignment-detail',
   templateUrl: './assignment-detail.component.html',
   styleUrls: ['./assignment-detail.component.css']
 })
-export class AssignmentDetailComponent {
-  @Input()
+export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis?:Assignment;
 
-  constructor(private assignmentsService:AssignmentsService) { }
+  constructor(private assignmentsService:AssignmentsService,
+              private route:ActivatedRoute) { }
+
+  ngOnInit(): void {
+    // appelée avant le rendu du composant
+    // on va chercher l'id dans l'url active
+    // en mettant + on force la conversion en number
+    const id = +this.route.snapshot.params['id'];
+    console.log("Dans le ngOnInit de detail, id = " + id);
+
+    // on va chercher l'assignment à afficher
+    this.assignmentsService.getAssignment(id)
+    .subscribe(assignment => {
+      this.assignmentTransmis = assignment;
+    });
+  }
 
   onDeleteAssignment() {
     if(!this.assignmentTransmis) return;
