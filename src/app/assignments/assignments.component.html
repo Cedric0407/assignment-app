@@ -8,6 +8,28 @@
         </a>
     </nav>
 
+    <mat-tab-group cdkDropList (cdkDropListDropped)="onTabDropped($event)">
+        <mat-tab label="Rendu">
+            <mat-list *ngFor="let a of assignments" cdkDrag>
+                <a routerLink="/assignments/{{a._id}}">
+                    <h3 mat-subheader>Date limite: {{a.dateDeRendu | date: 'dd/MM/yy'}}</h3>
+                    <mat-list-item>
+                        <p appRendu *ngIf="a.rendu; else nonsoumis">
+                            {{a.nom}} id = {{a._id}}
+                        </p>
+                        <ng-template #nonsoumis>
+                            {{a.nom}} NON RENDU id = {{a._id}}
+                        </ng-template>
+                    </mat-list-item>
+                    <mat-divider></mat-divider>
+                </a>
+            </mat-list>
+        </mat-tab>
+        <mat-tab label="Non rendu">
+            #### 2 #####
+        </mat-tab>
+    </mat-tab-group>
+
 
 
     <mat-divider></mat-divider>

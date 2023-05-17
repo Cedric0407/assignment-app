@@ -5,6 +5,7 @@ import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
 import { AuthService } from '../shared/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-assignments',
@@ -165,4 +166,11 @@ export class AssignmentsComponent implements OnInit {
     this.limit = event.pageSize;
     this.getAssignments();
   }
+
+  onTabDropped(event: CdkDragDrop<any>): void {
+    // Code pour traiter l'événement de lâcher de l'onglet ici
+    console.log("event", event.item)
+  }
+
+
 }
