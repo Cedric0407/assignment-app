@@ -19,7 +19,7 @@ export const authGuard: CanActivateFn = (route, state) => {
       } else {
         console.log("Vous n'êtes pas enregistrés ! Navigation refusée !");
         // et on retourne vers la page d'accueil
-        router.navigate(["/home"]);
+        router.navigate(["/auth/login"]);
         return false;
       }
     })

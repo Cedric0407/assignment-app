@@ -5,3 +5,13 @@ h1 {
 .log-btn {
     text-align: end;
 }
+
+.example-container {}
+
+.mat-mdc-list-item-icon {
+    color: rgba(0, 0, 0, 0.54);
+  }
+  
+  .nav-side-container{
+    
+  }

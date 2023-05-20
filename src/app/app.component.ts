@@ -12,6 +12,8 @@ export class AppComponent implements OnInit {
   title = 'Application de gestion de devoirs à rendre';
   userConnected?: any;
   currentRoute = "";
+
+
   constructor(public authservice: AuthService, private router: Router, private assigmmentsService: AssignmentsService) { }
 
   ngOnInit(): void {

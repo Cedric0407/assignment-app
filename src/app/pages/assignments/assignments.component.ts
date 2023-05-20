@@ -1,9 +1,9 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Assignment } from './assignment.model';
-import { AssignmentsService } from '../shared/assignments.service';
+import { AssignmentsService } from '../../shared/assignments.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs';
-import { AuthService } from '../shared/auth.service';
+import { AuthService } from '../../shared/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
