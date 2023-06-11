@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { authGuard } from '../shared/auth.guard';
+import { authGuard } from '../shared/services/auth.guard';
 
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
@@ -16,11 +16,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AssignmentsComponent
+        component: AssignmentsComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'home',
-        component: AssignmentsComponent
+        component: AssignmentsComponent,
+        canActivate: [authGuard]
       },
       {
         path: 'add',

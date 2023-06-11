@@ -22,7 +22,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
 
+import { DialogModule } from '@angular/cdk/dialog';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
@@ -31,6 +33,10 @@ import { AssignmentDetailComponent } from './assignments/assignment-detail/assig
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
 import { EditAssignmentComponent } from './assignments/edit-assignment/edit-assignment.component';
 import { PagesComponent } from './pages.component';
+import { AssignmentsDatalistComponent } from '../shared/components/assignments-datalist/assignments-datalist.component';
+import { AssignmentsCardlistComponent } from '../shared/components/assignments-cardlist/assignments-cardlist.component';
+import { AssignmentsVirtualscrollingComponent } from '../shared/components/assignments-virtualscrolling/assignments-virtualscrolling.component';
+import { ModalRendreAssignmentComponent } from '../shared/components/modal-rendre-assignment/modal-rendre-assignment.component';
 
 @NgModule({
   declarations: [
@@ -39,16 +45,21 @@ import { PagesComponent } from './pages.component';
     AddAssignmentComponent,
     EditAssignmentComponent,
     PagesComponent,
+    AssignmentsDatalistComponent,
+    AssignmentsCardlistComponent,
+    AssignmentsVirtualscrollingComponent,
+    ModalRendreAssignmentComponent
   ],
   imports: [
     CommonModule, FormsModule,
     PagesRoutingModule,
-    MatNativeDateModule, ScrollingModule, DragDropModule,
+    MatNativeDateModule,
     MatButtonModule, MatIconModule, MatDividerModule,
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatTableModule, MatPaginatorModule, MatTabsModule, MatSidenavModule, MatToolbarModule,
-    MatMenuModule
+    MatMenuModule, MatDialogModule
+    , ScrollingModule, DragDropModule, DialogModule,
   ]
 })
 export class PagesModule { }

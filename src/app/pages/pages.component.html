@@ -7,9 +7,14 @@
                 <mat-icon>menu</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <a routerLink="/auth/login"><button mat-menu-item>
+                <a *ngIf="!isLogged" routerLink="/auth/login"><button mat-menu-item>
                         <span>Se connecter</span>
-                    </button></a>
+                </button></a>
+
+                <button  *ngIf="isLogged" #logoutBtn mat-menu-item (click)="logout()">
+                        <span>Se déconnecter</span>
+                </button>
+
             </mat-menu>
         </mat-toolbar-row>
     </mat-toolbar>

@@ -1,7 +1,7 @@
 <div class="form-container">
   <div>
     <h1>Se connecter</h1>
-    <form ngForm class="form" #formLogin (submit)="onLogin(); formLogin.reset(); ">
+    <form ngForm class="form" #formLogin (submit)="onLogin();">
 
       <div>
         <mat-form-field appearance="outline">
@@ -18,7 +18,7 @@
       </div>
 
 
-      <button mat-raised-button color="primary" [disabled]="!password || !login">
+      <button mat-raised-button color="primary" [disabled]="!password || !login" type="submit">
         Se connecter
       </button>
     </form>

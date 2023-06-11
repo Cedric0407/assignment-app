@@ -1,0 +1,15 @@
+<h2>Rendre un assignement</h2>
+<mat-form-field>
+  <mat-label>Note</mat-label>
+  <input matInput type="number" [(ngModel)]="assignment.note" name="note">
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Remarques</mat-label>
+  <textarea matInput [(ngModel)]="assignment.remarques" name="remarques" rows="4"></textarea>
+</mat-form-field>
+
+<div class="modal-actions">
+  <button mat-button (click)="close()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="save()">Enregistrer</button>
+</div>

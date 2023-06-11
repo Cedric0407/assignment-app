@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Assignment } from '../pages/assignments/assignment.model';
+import { Assignment } from '../../pages/assignments/assignment.model';
 import { Observable, catchError, forkJoin, map, of, tap } from 'rxjs';
 import { LoggingService } from './logging.service';
-import { HttpClient } from '@angular/common/http';
-import { bdInitialAssignments } from './data';
+import { AuthService } from './auth.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { bdInitialAssignments } from '../data/data';
 
 @Injectable({
   providedIn: 'root'
@@ -11,18 +12,26 @@ import { bdInitialAssignments } from './data';
 export class AssignmentsService {
   // tableau de devoirs à rendre
   assignments: Assignment[] = []
-  constructor(private loggingService: LoggingService,
+  constructor(
+    private loggingService: LoggingService,
+    private authService: AuthService,
     private http: HttpClient) { }
 
-  //uri_api = 'http://localhost:8010/api/assignments';
-  uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/assignments';
+  uri_api = 'http://localhost:8010/api/assignments';
+  // uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/assignments';
 
-  getAssignments(page: number, limit: number): Observable<any> {
+  getAssignments(page: number, limit: number, rendu: boolean | undefined = undefined): Observable<any> {
     // normalement on doit envoyer une requête HTTP
     // sur un web service, et ça peut prendre du temps
     // On a donc besoin "d'attendre que les données arrivent".
     // Angular utilise pour cela la notion d'Observable
-    return this.http.get<Assignment[]>(this.uri_api + "?page=" + page + "&limit=" + limit);
+
+    const renduFilter = rendu != undefined ? `&rendu=${rendu}` : '';
+    const headers = new HttpHeaders()
+      .set('x-access-token', encodeURIComponent(this.authService.token as string));
+
+    // return this.http.get<Assignment[]>(this.uri_api + "?page=" + page + "&limit=" + limit + renduFilter, { headers });
+    return this.http.get<Assignment[]>(this.uri_api + "?page=" + page + "&limit=" + limit + renduFilter, { headers });
 
     // of() permet de créer un Observable qui va
     // contenir les données du tableau assignments
@@ -31,6 +40,8 @@ export class AssignmentsService {
 
   getAssignment(id: number): Observable<Assignment | undefined> {
     // Plus tard on utilisera un Web Service et une BD
+    const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
+
     return this.http.get<Assignment | undefined>(`${this.uri_api}/${id}`)
 
       .pipe(
@@ -71,10 +82,12 @@ export class AssignmentsService {
   };
 
   addAssignment(assignment: Assignment): Observable<any> {
+    const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
+
     this.loggingService.log(assignment.nom, 'ajouté');
 
     // plus tard on utilisera un web service pour l'ajout dans une vraie BD
-    return this.http.post<Assignment>(this.uri_api, assignment);
+    return this.http.post<Assignment>(this.uri_api, assignment, { headers });
     // on ajoute le devoir au tableau des devoirs
     //this.assignments.push(assignment);
     // on retourne un message de succès à travers
@@ -85,7 +98,9 @@ export class AssignmentsService {
   updateAssignment(assignment: Assignment): Observable<any> {
     // Normalement : on appelle un web service pour l'update des
     // données
-    return this.http.put<Assignment>(this.uri_api, assignment);
+    const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
+
+    return this.http.put<Assignment>(this.uri_api, assignment, { headers });
 
     // dans la version tableau : rien à faire (pourquoi ? Parceque assignment
     // est déjà un élément du tableau this.assignments)
@@ -96,9 +111,11 @@ export class AssignmentsService {
   }
 
   deleteAssignment(assignment: Assignment): Observable<any> {
-    return this.http.delete(this.uri_api + "/" + assignment._id)
+    const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
+
+    return this.http.delete(this.uri_api + "/" + assignment._id, { headers })
     // pour supprimer on passe à la méthode splice
-    // l'index de l'assignment à supprimer et 
+    // l'index de l'assignment à supprimer et
     // le nombre d'éléments à supprimer (ici 1)
     /*
     const index = this.assignments.indexOf(assignment);

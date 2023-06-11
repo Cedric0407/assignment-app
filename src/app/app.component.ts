@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './shared/auth.service';
+import { AuthService } from './shared/services/auth.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { AssignmentsService } from './shared/assignments.service';
+import { AssignmentsService } from './shared/services/assignments.service';
 
 @Component({
   selector: 'app-root',
@@ -17,9 +17,7 @@ export class AppComponent implements OnInit {
   constructor(public authservice: AuthService, private router: Router, private assigmmentsService: AssignmentsService) { }
 
   ngOnInit(): void {
-    this.authservice.getUserConnected().subscribe(user => {
-      this.userConnected = user;
-    });
+    this.userConnected = this.authservice.userConnected;
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         console.log(event.url);

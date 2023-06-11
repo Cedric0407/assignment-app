@@ -1,0 +1,17 @@
+
+<cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller>
+  <mat-list *cdkVirtualFor="let a of assignments">
+      <a routerLink="/assignments/{{a.id}}">
+          <h3 mat-subheader>Date limite: {{a.dateDeRendu | date: 'dd/MM/yy'}}</h3>
+          <mat-list-item>
+              <p appRendu *ngIf="a.rendu; else nonsoumis">
+                  {{a.nom}} id = {{a._id}}
+              </p>
+              <ng-template #nonsoumis>
+                  {{a.nom}} NON RENDU id = {{a._id}}
+              </ng-template>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+      </a>
+  </mat-list>
+</cdk-virtual-scroll-viewport>
