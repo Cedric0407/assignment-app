@@ -22,7 +22,7 @@ export class LoginComponent {
     this.authService.logIn(this.login, this.password).subscribe(
       (resp) => {
         if (resp.token) {
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']);
         }
       },
       (error) => {

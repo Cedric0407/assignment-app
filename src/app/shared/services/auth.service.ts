@@ -13,6 +13,7 @@ export class AuthService {
 
   // uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/auth';
   uri_api = 'http://localhost:8010/api/auth';
+  private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -36,6 +37,8 @@ export class AuthService {
             localStorage.setItem('token', response.token);
             const user: User = { ...response.user, id: response.user?._id };
             localStorage.setItem('user', JSON.stringify(response.user));
+            let todayTime = new Date().getTime()
+            localStorage.setItem('expirationTime', (todayTime + response.expirationTime).toString());
           }
 
           return response;
@@ -46,6 +49,7 @@ export class AuthService {
   logOut() {
     console.log("ON SE DELOGGE")
     localStorage.clear();
+    this.stopExpirationTimer();
     this.router.navigateByUrl("/")
 
   }
@@ -88,5 +92,18 @@ export class AuthService {
 
     // on renvoie la promesse qui dit si on est admin ou pas
     return isLoggedIn;
+  }
+
+  private startExpirationTimer() {
+    const expirationTime = + (localStorage.getItem('expirationTime') || 0);
+    const expiresIn = expirationTime - new Date().getTime();
+
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logOut();
+    }, expiresIn);
+  }
+
+  private stopExpirationTimer() {
+    clearTimeout(this.tokenExpirationTimer);
   }
 }

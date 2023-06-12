@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Assignment } from '../assignment.model';
+import { Assignment } from '../../../model/assignment.model';
 import { AssignmentsService } from 'src/app/shared/services/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';

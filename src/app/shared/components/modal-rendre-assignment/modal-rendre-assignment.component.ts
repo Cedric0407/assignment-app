@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Assignment } from '../../../pages/assignments/assignment.model';
+import { Assignment } from '../../../model/assignment.model';
 import { AssignmentsService } from '../../../shared/services/assignments.service';
 import { AssignmentsCardlistComponent } from 'src/app/shared/components/assignments-cardlist/assignments-cardlist.component';
 import { NotificationService } from 'src/app/shared/services/notification.service';

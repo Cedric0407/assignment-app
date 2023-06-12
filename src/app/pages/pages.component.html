@@ -1,38 +1,66 @@
-<p>
+<div style="height: 100%">
+  <p>
     <mat-toolbar color="primary">
-        <mat-toolbar-row>
-            <span>My App</span>
-            <span class="example-spacer"></span>
-            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                <mat-icon>menu</mat-icon>
+      <mat-toolbar-row class="toolbar">
+        <span>CT Project</span>
+        <div class="align-center">
+          <span *ngIf="userLogged">{{ userLogged.name }}</span>
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            aria-label="Example icon-button with a menu"
+          >
+            <img
+              class="avatar-img"
+              [src]="
+                userLogged?.imagePath
+                  ? userLogged?.imagePath
+                  : 'assets/img/avatar.png'
+              "
+              alt="Matiere Image"
+            />
+          </button>
+          <mat-menu #menu="matMenu">
+            <a *ngIf="!isLogged" routerLink="/auth/login"
+              ><button mat-menu-item>
+                <span>Se connecter</span>
+              </button></a
+            >
+
+            <button
+              *ngIf="isLogged"
+              #logoutBtn
+              mat-menu-item
+              (click)="logout()"
+            >
+              <span>Se déconnecter</span>
             </button>
-            <mat-menu #menu="matMenu">
-                <a *ngIf="!isLogged" routerLink="/auth/login"><button mat-menu-item>
-                        <span>Se connecter</span>
-                </button></a>
-
-                <button  *ngIf="isLogged" #logoutBtn mat-menu-item (click)="logout()">
-                        <span>Se déconnecter</span>
-                </button>
-
-            </mat-menu>
-        </mat-toolbar-row>
-    </mat-toolbar>
-</p>
-<mat-drawer-container class="example-container" color="primary">
-    <mat-drawer mode="side" opened>
-
-        <div class="nav-side-container">
-            <mat-nav-list>
-                <mat-list-item *ngFor="let link of menus" [activated]="link.isActive" (click)="clickMenu(link)">
-                    <a matListItemTitle routerLink="{{link.route}}"
-                        routerLinkActive="active-link"><mat-icon>{{link.icon}}</mat-icon> {{ link.name }}</a>
-                </mat-list-item>
-            </mat-nav-list>
+          </mat-menu>
         </div>
-
-
-
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </p>
+  <mat-drawer-container class="example-container" color="primary">
+    <mat-drawer mode="side" opened>
+      <div class="nav-side-container">
+        <mat-nav-list>
+          <mat-list-item
+            *ngFor="let link of menus"
+            [activated]="link.isActive"
+            (click)="clickMenu(link)"
+          >
+            <a
+              matListItemTitle
+              routerLink="{{ link.route }}"
+              routerLinkActive="active-link"
+              ><mat-icon>{{ link.icon }}</mat-icon> {{ link.name }}</a
+            >
+          </mat-list-item>
+        </mat-nav-list>
+      </div>
     </mat-drawer>
-    <mat-drawer-content style="height: 100%;"><router-outlet></router-outlet></mat-drawer-content>
-</mat-drawer-container>
+    <mat-drawer-content style="height: 100%"
+      ><router-outlet></router-outlet
+    ></mat-drawer-content>
+  </mat-drawer-container>
+</div>

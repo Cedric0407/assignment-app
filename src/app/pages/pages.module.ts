@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 import { MatButtonModule } from '@angular/material/button';
@@ -23,6 +24,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
 
 import { DialogModule } from '@angular/cdk/dialog';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -37,6 +39,12 @@ import { AssignmentsDatalistComponent } from '../shared/components/assignments-d
 import { AssignmentsCardlistComponent } from '../shared/components/assignments-cardlist/assignments-cardlist.component';
 import { AssignmentsVirtualscrollingComponent } from '../shared/components/assignments-virtualscrolling/assignments-virtualscrolling.component';
 import { ModalRendreAssignmentComponent } from '../shared/components/modal-rendre-assignment/modal-rendre-assignment.component';
+import { MatieresComponent } from './matieres/matieres.component';
+import { UsersComponent } from './users/users.component';
+import { AddMatiereComponent } from './matieres/add-matiere/add-matiere.component';
+import { EditMatiereComponent } from './matieres/edit-matiere/edit-matiere.component';
+import { EditUserComponent } from './users/edit-user/edit-user.component';
+import { AddUserComponent } from './users/add-user/add-user.component';
 
 @NgModule({
   declarations: [
@@ -48,18 +56,24 @@ import { ModalRendreAssignmentComponent } from '../shared/components/modal-rendr
     AssignmentsDatalistComponent,
     AssignmentsCardlistComponent,
     AssignmentsVirtualscrollingComponent,
-    ModalRendreAssignmentComponent
+    ModalRendreAssignmentComponent,
+    MatieresComponent,
+    UsersComponent,
+    AddMatiereComponent,
+    EditMatiereComponent,
+    EditUserComponent,
+    AddUserComponent
   ],
   imports: [
-    CommonModule, FormsModule,
+    CommonModule, FormsModule, ReactiveFormsModule,
     PagesRoutingModule,
     MatNativeDateModule,
     MatButtonModule, MatIconModule, MatDividerModule,
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatTableModule, MatPaginatorModule, MatTabsModule, MatSidenavModule, MatToolbarModule,
-    MatMenuModule, MatDialogModule
-    , ScrollingModule, DragDropModule, DialogModule,
+    MatMenuModule, MatDialogModule, MatSelectModule,
+    ScrollingModule, DragDropModule, DialogModule,
   ]
 })
 export class PagesModule { }

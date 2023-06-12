@@ -3,8 +3,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
-import { Assignment } from '../../pages/assignments/assignment.model';
-import { AssignmentsService } from '../../shared/services/assignments.service';
+import { Assignment } from '../../model/assignment.model';
 import { AssignmentsCardlistComponent } from 'src/app/shared/components/assignments-cardlist/assignments-cardlist.component';
 
 import { ModalRendreAssignmentComponent } from '../../shared/components/modal-rendre-assignment/modal-rendre-assignment.component';

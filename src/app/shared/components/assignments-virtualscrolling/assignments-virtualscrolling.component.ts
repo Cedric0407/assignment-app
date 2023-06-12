@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
-import { Assignment } from '../../../pages/assignments/assignment.model';
+import { Assignment } from '../../../model/assignment.model';
 import { AssignmentsService } from '../../../shared/services/assignments.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';

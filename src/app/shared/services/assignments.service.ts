@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Assignment } from '../../pages/assignments/assignment.model';
+import { Assignment } from '../../model/assignment.model';
 import { Observable, catchError, forkJoin, map, of, tap } from 'rxjs';
 import { LoggingService } from './logging.service';
 import { AuthService } from './auth.service';
@@ -130,7 +130,7 @@ export class AssignmentsService {
   peuplerBD() {
     bdInitialAssignments.forEach(a => {
       const newAssignment = new Assignment();
-      newAssignment.id = a.id;
+      newAssignment._id = a._id.toString();
       newAssignment.nom = a.nom;
       newAssignment.dateDeRendu = new Date(a.dateDeRendu);
       newAssignment.rendu = a.rendu;
@@ -150,7 +150,7 @@ export class AssignmentsService {
 
     bdInitialAssignments.forEach(a => {
       const nouvelAssignment = new Assignment();
-      nouvelAssignment.id = a.id;
+      nouvelAssignment._id = a._id.toString();
       nouvelAssignment.nom = a.nom;
       nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
       nouvelAssignment.rendu = a.rendu;

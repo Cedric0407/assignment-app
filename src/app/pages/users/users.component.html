@@ -1,0 +1,55 @@
+<mat-card>
+  <mat-card-header>
+    <h1>Liste des utilisateurs</h1>
+    <a routerLink="/users/add">
+      <button mat-flat-button color="accent">Ajouter</button>
+    </a>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="users">
+        <!-- Position Column -->
+        <ng-container matColumnDef="imagePath">
+          <th mat-header-cell *matHeaderCellDef>Profil</th>
+          <td mat-cell *matCellDef="let element">
+            <img
+              class="avatar-img"
+              [src]="
+                element.imagePath ? element.imagePath : 'assets/img/avatar.png'
+              "
+              alt="Matiere Image"
+            />
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nom</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.role }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+      >
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>

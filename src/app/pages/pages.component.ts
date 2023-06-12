@@ -9,8 +9,10 @@ import { Router } from '@angular/router';
 export class PagesComponent {
 
   menus = [
-    { name: 'Mes devoirs', icon: 'home', route: '/', isActive: false },
-    { name: 'Ajouter', icon: 'add', route: '/add', isActive: false }
+    { name: 'Devoirs', icon: 'home', route: '/', isActive: false },
+    { name: 'Utilisateurs', icon: 'add', route: '/users', isActive: false },
+    { name: 'Matières', icon: 'add', route: '/matieres', isActive: false },
+
   ];
 
   constructor(
@@ -22,6 +24,10 @@ export class PagesComponent {
 
   get isLogged(): boolean {
     return this.authService.loggedIn;
+  }
+
+  get userLogged() {
+    return this.authService.userConnected;
   }
 
   clickMenu(newActive: any): void {
