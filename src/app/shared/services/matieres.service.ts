@@ -30,25 +30,6 @@ export class MatieresService {
 
     return this.http.get<Matiere | undefined>(`${this.uri_api}/${id}`)
 
-      .pipe(
-        map(a => {
-          if (a) {
-            a.nom += " MAP MAP MAP";
-          }
-          return a;
-        }),
-        tap(a => {
-          if (a)
-            console.log("ICI DANS LE TAP " + a.nom)
-        }),
-        map(a => {
-          if (a) {
-            a.nom += " TOTOTOTO";
-          }
-          return a;
-        }),
-        catchError(this.handleError<Matiere>("Erreur dans le traitement de matiere avec id = " + id))
-      )
   }
 
   private handleError<T>(operation: any, result?: T) {
@@ -60,10 +41,17 @@ export class MatieresService {
     }
   };
 
-  addMatiere(matiere: Matiere): Observable<any> {
+  addMatiere(matiere: Matiere, imageFile: any): Observable<any> {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
-
-    return this.http.post<Matiere>(this.uri_api, matiere, { headers });
+    const uploadData = new FormData();
+    for (let property in matiere) {
+      if (matiere[property]) {
+        if (property === 'professeur') uploadData.append(property, JSON.stringify(matiere[property]));
+        else uploadData.append(property, matiere[property]);
+      }
+    }
+    if (imageFile) uploadData.append('image', imageFile);
+    return this.http.post<Matiere>(this.uri_api, uploadData, { headers });
 
   }
 

@@ -5,4 +5,5 @@ export class Matiere {
   nom!: string;
   professeur!: User;
   imagePath!: string;
+  [key: string]: any;
 }

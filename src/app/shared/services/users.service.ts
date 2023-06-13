@@ -47,7 +47,6 @@ export class UsersService {
     for (let property in user) {
       if (user[property]) {
         uploadData.append(property, user[property]);
-        console.log("user[property]", user[property])
       }
     }
     if (imageFile) uploadData.append('image', imageFile);
