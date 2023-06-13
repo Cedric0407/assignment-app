@@ -41,7 +41,7 @@ export class UsersService {
     }
   };
 
-  addUser(user: User, imageFile?: any): Observable<any> {
+  addUser(user: User, imageFile?: any , password?:string): Observable<any> {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
     const uploadData = new FormData();
     for (let property in user) {
@@ -50,6 +50,7 @@ export class UsersService {
       }
     }
     if (imageFile) uploadData.append('image', imageFile);
+    if (password) uploadData.append('password', password);
 
     return this.http.post<User>(this.uri_api, uploadData, { headers });
 

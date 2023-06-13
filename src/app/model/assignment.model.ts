@@ -10,5 +10,6 @@ export class Assignment {
   remarques!: string;
   matiere!: Matiere;
   auteur!: User;
+  [key: string]: any;
 }
 

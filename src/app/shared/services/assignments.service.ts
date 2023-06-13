@@ -81,18 +81,19 @@ export class AssignmentsService {
     }
   };
 
-  addAssignment(assignment: Assignment): Observable<any> {
+  addAssignment(assignment: Assignment , file?:any): Observable<any> {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
 
-    this.loggingService.log(assignment.nom, 'ajouté');
+    const uploadData = new FormData();
+    for (let property in assignment) {
+      if (assignment[property]) {
+        if (property === 'matiere') uploadData.append(property, JSON.stringify(assignment[property]));
+        else uploadData.append(property, assignment[property]);
+      }
+    }
+    if (file) uploadData.append('file', file);
 
-    // plus tard on utilisera un web service pour l'ajout dans une vraie BD
-    return this.http.post<Assignment>(this.uri_api, assignment, { headers });
-    // on ajoute le devoir au tableau des devoirs
-    //this.assignments.push(assignment);
-    // on retourne un message de succès à travers
-    // un Observable
-    //return of(`Assignment ${assignment.nom} ajouté avec succès`);
+    return this.http.post<Assignment>(this.uri_api, uploadData, { headers });
   }
 
   updateAssignment(assignment: Assignment): Observable<any> {

@@ -1,18 +1,82 @@
-<form ngForm #assignmentForm (submit)="onSubmit($event); assignmentForm.reset()" class="form">
+<mat-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="infoFormGroup">
+    <form [formGroup]="infoFormGroup" class="form">
+      <ng-template matStepLabel>Remplissez les informations</ng-template>
+        <mat-form-field appearance="fill">
+          <mat-label>Nom</mat-label>
+          <input matInput formControlName="nom" required />
+          <mat-error
+            *ngIf="
+              infoFormGroup.get('nom')?.invalid &&
+              infoFormGroup.get('nom')?.touched
+            "
+          >
+            Nom is required.
+          </mat-error>
+        </mat-form-field>
 
-    <mat-form-field>
-        <input matInput [(ngModel)]="nomDevoir" name="nom" placeholder="Nom du devoir" required>
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Matière</mat-label>
+          <mat-select formControlName="matiereId" required>
+            <ng-template ngFor let-matiere [ngForOf]="matiereList">
+              <mat-option [value]="matiere._id">{{ matiere.nom }}</mat-option>
+            </ng-template>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              infoFormGroup.get('matiereId')?.invalid &&
+              infoFormGroup.get('matiereId')?.touched
+            "
+          >
+            Role is required.
+          </mat-error>
+        </mat-form-field>
 
-    <mat-form-field appearance="fill">
-        <mat-label>Date de rendu</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="date" required>
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Date de rendu</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dateDeRendu" required>
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error
+            *ngIf="
+              infoFormGroup.get('dateDeRendu')?.invalid &&
+              infoFormGroup.get('dateDeRendu')?.touched
+            "
+          >
+            La date de rendu est obligatoire.
+          </mat-error>
+      </mat-form-field>
 
-    <button mat-stroked-button color="primary">
-        Ajouter un devoir
-    </button>
-</form>
+      <div>
+        <button mat-button matStepperNext>Suivant</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="uploadFormGroup" label="Téléverser votre devoir">
+    <form [formGroup]="uploadFormGroup" class="form">
+      <div class="mat-mdc-form-field">
+        <mat-label>Devoir</mat-label>
+        <input
+          type="file"
+          formControlName="imageFile"
+          required
+          (change)="onImageSelected($event)"
+          accept="image/*"
+        />
+        <mat-error
+          *ngIf="
+            infoFormGroup.get('imageFile')?.invalid &&
+            infoFormGroup.get('imageFile')?.touched
+          "
+        >
+          Champ obligatoire.
+        </mat-error>
+        </div>
+      <div>
+        <button mat-button matStepperPrevious>Retour</button>
+        <button mat-button (click)="submitAssignment()">Envoyer</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-stepper>

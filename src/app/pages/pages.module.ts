@@ -25,6 +25,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import {MatStepperModule} from '@angular/material/stepper';
 
 import { DialogModule } from '@angular/cdk/dialog';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -72,7 +73,7 @@ import { AddUserComponent } from './users/add-user/add-user.component';
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatTableModule, MatPaginatorModule, MatTabsModule, MatSidenavModule, MatToolbarModule,
-    MatMenuModule, MatDialogModule, MatSelectModule,
+    MatMenuModule, MatDialogModule, MatSelectModule,MatStepperModule,
     ScrollingModule, DragDropModule, DialogModule,
   ]
 })
