@@ -38,7 +38,7 @@ export class AddUserComponent {
     this.isLoading = true;
     const user = {
       email: this.userForm.get('email')?.value,
-      name: this.userForm.get('name')?.value,
+      nom: this.userForm.get('name')?.value,
       role: this.userForm.get('role')?.value
     }
     this.usersService.addUser(user as User, this.imageFile).subscribe(resp => {

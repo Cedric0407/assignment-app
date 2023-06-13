@@ -15,7 +15,7 @@ export class MatieresService {
 
   uri_api = 'http://localhost:8010/api/matieres';
 
-  getMatieres(page: number, limit: number): Observable<any> {
+  getMatieres(page?: number, limit?: number): Observable<any> {
 
 
     const headers = new HttpHeaders()

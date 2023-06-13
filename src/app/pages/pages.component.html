@@ -4,7 +4,7 @@
       <mat-toolbar-row class="toolbar">
         <span>CT Project</span>
         <div class="align-center">
-          <span *ngIf="userLogged">{{ userLogged.name }}</span>
+          <span *ngIf="userLogged">{{ userLogged.nom }}</span>
           <button
             mat-icon-button
             [matMenuTriggerFor]="menu"
