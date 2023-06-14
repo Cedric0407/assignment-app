@@ -1,35 +1,79 @@
-<mat-list *ngFor="let a of assignments" cdkDrag [cdkDragData]="a" [cdkDragDisabled]="rendu">
-      <h3 mat-subheader>Date limite: {{a.dateDeRendu | date: 'dd/MM/yy'}}</h3>
-      <mat-list-item>
-          <p appRendu *ngIf="a.rendu; else nonsoumis">
-              {{a.nom}} id = {{a._id}}
-          </p>
-          <ng-template #nonsoumis>
-              {{a.nom}} NON RENDU id = {{a._id}}
-          </ng-template>
+<mat-grid-list cols="3" rowHeight="200px">
+  <mat-grid-tile
+    *ngFor="let a of assignments"
+    [colspan]="1"
+    [rowspan]="1"
+    cdkDrag
+    [cdkDragData]="a"
+    [cdkDragDisabled]="rendu"
+  >
+    <mat-card class="card">
+      <mat-card-header>
+        <div mat-card-avatar class="img-container">
+          <img
+            class="matiere-img"
+            [src]="a.matiere?.imagePath ?? 'assets/img/matiere_default.png'"
+          />
+        </div>
+        <mat-card-title>{{ a.matiere?.nom ?? "n/a" }}</mat-card-title>
+        <mat-card-subtitle>{{
+          a.matiere?.professeur?.nom ?? "n/a"
+        }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-card-title>{{ a.nom }}</mat-card-title>
+        <mat-card-subtitle
+          >Date limite:
+          {{ a.dateDeRendu | date : "dd/MM/yy" }}</mat-card-subtitle
+        >
+        <p appRendu *ngIf="a.rendu; else nonsoumis">Rendu</p>
+        <ng-template #nonsoumis>Non Rendu</ng-template>
+        <a routerLink="/assignments/{{ a._id }}">Voir détail</a>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
 
-          <a routerLink="/assignments/{{a._id}}">voir détail</a>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-</mat-list>
+<!-- <mat-divider></mat-divider>
+<p>
+  Nb assignments total {{ totalDocs }}, par page {{ limit }}, nbPages
+  {{ totalPages }}
+</p>
+<p>
+  Régler nb par page :
+  <input
+    type="range"
+    min="1"
+    max="100"
+    value="10"
+    [(ngModel)]="limit"
+    (change)="getAssignments()"
+  />
+  {{ limit }}
+</p>
+<p>
+  <button (click)="premierePage()" [disabled]="!hasPrevPage">
+    Première page
+  </button>
+  <button (click)="pagePrecedente()" [disabled]="!hasPrevPage">
+    Page Précédente
+  </button>
+  <button (click)="pageSuivante()" [disabled]="!hasNextPage">
+    Page Suivante
+  </button>
+  <button (click)="dernierePage()" [disabled]="!hasNextPage">
+    Derniere page
+  </button>
+</p> -->
 
-<mat-divider></mat-divider>
-    <p>
-        Nb assignments total {{totalDocs}}, par page {{limit}}, nbPages {{totalPages}}
-    </p>
-    <p>
-        Régler nb par page :
-        <input type="range" min=1 max=100 value=10 [(ngModel)]="limit" (change)="getAssignments()" /> {{limit}}
-    </p>
-    <p>
-        <button (click)="premierePage()" [disabled]="!hasPrevPage">
-            Première page
-        </button>
-        <button (click)="pagePrecedente()" [disabled]="!hasPrevPage">
-            Page Précédente
-        </button>
-        <button (click)="pageSuivante()" [disabled]="!hasNextPage">Page Suivante</button>
-        <button (click)="dernierePage()" [disabled]="!hasNextPage">
-            Derniere page
-        </button>
-    </p>
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons
+  aria-label="Selection de la page des assigments"
+  (page)="handlePage($event)"
+  class="demo-paginator"
+  [length]="totalPages"
+  [pageSize]="limit"
+  [pageIndex]="page"
+>
+</mat-paginator>

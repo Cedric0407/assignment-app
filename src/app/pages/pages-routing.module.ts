@@ -16,6 +16,7 @@ import { UsersComponent } from './users/users.component';
 
 
 const routes: Routes = [
+  { path: '', redirectTo: 'assignments', pathMatch: 'full' },
   {
     path: '',
     component: PagesComponent,
@@ -95,7 +96,8 @@ const routes: Routes = [
       }
 
     ]
-  }
+  },
+
 ]
 
 

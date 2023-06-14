@@ -1,81 +1,93 @@
-
 .container {
-    display:flex;
-    flex-direction:column;
+  display: flex;
+  flex-direction: column;
+  padding: 2em;
 }
 
 .ajouterBtn {
-    align-self: flex-end;
+  align-self: flex-end;
 }
 
 .example-viewport {
-    height: 600px;
-    width: 1600px;
-    border: 1px solid black;
-  }
+  height: 600px;
+  width: 1600px;
+  border: 1px solid black;
+}
 
-  .example-item {
-    height: 150px;
-  }
+.example-item {
+  height: 150px;
+}
 
-  .demo-table {
-    width: 100%;
-  }
+.demo-table {
+  width: 100%;
+}
 
-  .mat-column-id {
-    width: 32px;
-    border-right: 1px solid currentColor;
-    padding-right: 24px;
-    text-align: center;
-  }
+.mat-column-id {
+  width: 32px;
+  border-right: 1px solid currentColor;
+  padding-right: 24px;
+  text-align: center;
+}
 
-  .mat-column-nom {
-    padding-left: 16px;
-    font-size: 20px;
-  }
+.mat-column-nom {
+  padding-left: 16px;
+  font-size: 20px;
+}
 
-  .mat-column-dateDeRendu {
-    font-style: italic;
-  }
+.mat-column-dateDeRendu {
+  font-style: italic;
+}
 
-  .mat-column-rendu {
-    width: 32px;
-    text-align: center;
-    font-weight: bold;
-  }
+.mat-column-rendu {
+  width: 32px;
+  text-align: center;
+  font-weight: bold;
+}
 
-  /* for tab */
-  .tabs {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+/* for tab */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
-  .tab-buttons {
-    display: flex;
-    background-color: #dadada;
-    padding: 10px;
-    width: 100%;
-    justify-content: space-around;
-  }
+.tab-buttons {
+  display: flex;
+  background-color: #dadada;
+  justify-content: space-around;
+  height: 50px;
+}
 
-  .tab-button {
-    border: none;
-    padding: 8px 16px;
-    cursor: pointer;
-    outline: none;
-    width: 100%;
-    text-align: center;
-  }
+.tab-button {
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  outline: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: large;
+  font-weight: bold;
+}
 
-  .tab-button.active {
-    background-color: blue;
-  }
+.tab-button.active {
+  background-color: blue;
+  border-radius: 1px 10px 0px 10px;
+  color: blanchedalmond;
+}
+.tab-button.active:hover {
+  background-color: blue;
+}
 
-  .tab-content {
-    padding: 10px;
-  }
+.tab-button:hover {
+  background-color: rgb(131, 224, 255);
+  border-radius: 1px 10px 0px 10px;
+}
 
-  /* for tab */
+.tab-content {
+  padding: 10px;
+}
 
+/* for tab */

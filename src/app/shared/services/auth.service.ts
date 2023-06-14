@@ -58,6 +58,10 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('user') ?? 'null');
   }
 
+  get userRole() {
+    return this.userConnected?.role;
+  }
+
   get loggedIn(): boolean {
     return this.userConnected ? true : false;
   }

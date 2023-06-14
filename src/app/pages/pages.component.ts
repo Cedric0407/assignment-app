@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../shared/services/auth.service';
 import { Router } from '@angular/router';
+import { ROLE } from '../shared/helpers/constants';
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
@@ -9,17 +10,22 @@ import { Router } from '@angular/router';
 export class PagesComponent {
 
   menus = [
-    { name: 'Devoirs', icon: 'home', route: '/', isActive: false },
-    { name: 'Utilisateurs', icon: 'add', route: '/users', isActive: false },
-    { name: 'Matières', icon: 'add', route: '/matieres', isActive: false },
+    { name: 'Devoirs', icon: 'assignment', route: '/assignments', acces: [ROLE.admin, ROLE.etudiant, ROLE.professeur] },
+    { name: 'Utilisateurs', icon: 'supervised_user_circle', route: '/users', acces: [ROLE.admin] },
+    { name: 'Matières', icon: 'book', route: '/matieres', acces: [ROLE.admin] },
 
   ];
+  router: any;
 
   constructor(
     private authService: AuthService,
     private route: Router
   ) {
 
+  }
+
+  canAccess(menu: any) {
+    return menu.acces.includes(this.authService.userRole)
   }
 
   get isLogged(): boolean {
@@ -30,10 +36,10 @@ export class PagesComponent {
     return this.authService.userConnected;
   }
 
-  clickMenu(newActive: any): void {
-    const lastActive = this.menus.find(elt => elt.isActive);
-    if (lastActive) lastActive.isActive = false;
-    newActive.isActive = true;
+  isActive(url: string): boolean {
+    const currentUrl = this.route.url;
+    console.log(this.route.url, url, currentUrl.indexOf(url) > 0)
+    return currentUrl.indexOf(url) >= 0;
   }
 
   logout(): void {

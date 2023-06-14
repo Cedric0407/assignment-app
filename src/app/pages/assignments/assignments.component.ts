@@ -8,6 +8,7 @@ import { AssignmentsCardlistComponent } from 'src/app/shared/components/assignme
 
 import { ModalRendreAssignmentComponent } from '../../shared/components/modal-rendre-assignment/modal-rendre-assignment.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ROLE } from 'src/app/shared/helpers/constants';
 
 @Component({
   selector: 'app-assignments',
@@ -22,6 +23,7 @@ export class AssignmentsComponent {
   @ViewChild('renduComponent', { static: false }) renduElt!: AssignmentsCardlistComponent;
   @ViewChild('nonRenduComponent', { static: false }) nonRenduElt!: AssignmentsCardlistComponent;
   assignmentToRendre?: Assignment;
+  role = ROLE;
 
   constructor(
     public authservice: AuthService,
@@ -32,6 +34,10 @@ export class AssignmentsComponent {
 
   selectTab(tabNumber: number) {
     this.selectedTab = tabNumber;
+  }
+
+  get userRole() {
+    return this.authservice.userRole;
   }
 
   onTabDroppedToRendu(event: CdkDragDrop<any>): void {

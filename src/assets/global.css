@@ -5,5 +5,12 @@
   border-radius: 5px;
   padding: 3px;
   object-fit: cover;
-  margin-top: 3px;
+}
+
+.img-container {
+  margin: 0 1em;
+}
+
+mat-card-header {
+  margin-bottom: 2em;
 }

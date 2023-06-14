@@ -24,7 +24,7 @@ export class AssignmentsDatalistComponent {
   ;
   isInitialized = false;
 
-  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu'];
+  displayedColumns: string[] = ['matiere', 'etudiant', 'nom', 'dateDeRendu', 'rendu'];
 
   constructor(
     public authservice: AuthService,
