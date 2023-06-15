@@ -13,7 +13,7 @@ export class AssignmentsDatalistComponent {
   assignments: Assignment[] = [];
 
   // propriétés pour la pagination
-  page: number = 1;
+  page: number = 0;
   limit: number = 10;
   totalDocs: number = 0;
   totalPages: number = 0;

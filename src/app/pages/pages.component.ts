@@ -38,7 +38,6 @@ export class PagesComponent {
 
   isActive(url: string): boolean {
     const currentUrl = this.route.url;
-    console.log(this.route.url, url, currentUrl.indexOf(url) > 0)
     return currentUrl.indexOf(url) >= 0;
   }
 

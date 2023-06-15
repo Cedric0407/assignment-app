@@ -14,3 +14,9 @@
 mat-card-header {
   margin-bottom: 2em;
 }
+
+.form {
+  display: flex !important;
+  flex-direction: column !important;
+  margin: 5px !important;
+}

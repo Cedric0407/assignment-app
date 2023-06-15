@@ -20,18 +20,38 @@ export class AssignmentsService {
   uri_api = 'http://localhost:8010/api/assignments';
   // uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/assignments';
 
-  getAssignments(page: number, limit: number, rendu: boolean | undefined = undefined): Observable<any> {
-    // normalement on doit envoyer une requête HTTP
-    // sur un web service, et ça peut prendre du temps
-    // On a donc besoin "d'attendre que les données arrivent".
-    // Angular utilise pour cela la notion d'Observable
+  getAssignments(page: number, limit: number, filter: { rendu?: boolean; idMatiere?: string; idEtudiant?: string } = undefined): Observable<any> {
 
-    const renduFilter = rendu != undefined ? `&rendu=${rendu}` : '';
+    let renduFilter = '';
+    if (filter) {
+      for (let property in filter) {
+        renduFilter += `&${property}=${filter[property]}`
+      }
+    }
+
     const headers = new HttpHeaders()
       .set('x-access-token', encodeURIComponent(this.authService.token as string));
 
-    // return this.http.get<Assignment[]>(this.uri_api + "?page=" + page + "&limit=" + limit + renduFilter, { headers });
     return this.http.get<Assignment[]>(this.uri_api + "?page=" + page + "&limit=" + limit + renduFilter, { headers });
+
+    // of() permet de créer un Observable qui va
+    // contenir les données du tableau assignments
+    //return of(this.assignments);
+  }
+
+  getAssignmentsQuery(page: number, limit: number, filter: { rendu?: boolean; idMatieres?: string[]; idEtudiant?: string } = undefined): Observable<any> {
+
+    const body = { page, limit };
+
+    for (let property in filter) {
+      body[property] = filter[property];
+
+    }
+
+    const headers = new HttpHeaders()
+      .set('x-access-token', encodeURIComponent(this.authService.token as string))
+
+    return this.http.post<Assignment[]>(this.uri_api + "/filter", body, { headers });
 
     // of() permet de créer un Observable qui va
     // contenir les données du tableau assignments
@@ -81,13 +101,13 @@ export class AssignmentsService {
     }
   };
 
-  addAssignment(assignment: Assignment , file?:any): Observable<any> {
+  addAssignment(assignment: Assignment, file?: any): Observable<any> {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
 
     const uploadData = new FormData();
     for (let property in assignment) {
       if (assignment[property]) {
-        if (property === 'matiere') uploadData.append(property, JSON.stringify(assignment[property]));
+        if (property === 'matiere' || property === 'auteur') uploadData.append(property, JSON.stringify(assignment[property]));
         else uploadData.append(property, assignment[property]);
       }
     }

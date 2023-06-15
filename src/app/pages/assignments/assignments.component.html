@@ -6,6 +6,24 @@
     </a>
   </mat-card-header>
   <mat-card-content>
+    <mat-card>
+      <mat-card-content>
+        <h4>Filtre</h4>
+        <mat-form-field>
+          <mat-label>Matière</mat-label>
+          <mat-select (valueChange)="handleMatiereChange($event)">
+            <mat-option>Toutes</mat-option>
+            <mat-option
+              *ngFor="let matiere of matiereList"
+              [value]="matiere._id"
+            >
+              {{ matiere.nom }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
     <div class="mat-elevation-z8" [ngSwitch]="userRole">
       <div class="tabs" cdkDropListGroup *ngSwitchCase="role.professeur">
         <div class="tab-buttons">
@@ -30,11 +48,21 @@
         </div>
         <div class="tab-content">
           <div *ngIf="selectedTab === 2" cdkDropList>
-            <app-assignments-cardlist [rendu]="false" #nonRenduComponent />
+            <app-assignments-cardlist
+              [rendu]="false"
+              #nonRenduComponent
+              [matiereIdFilter]="matiereIdFilter"
+              [matiereList]="matiereList"
+            />
           </div>
 
           <div *ngIf="selectedTab === 1">
-            <app-assignments-cardlist [rendu]="true" #renduComponent />
+            <app-assignments-cardlist
+              [rendu]="true"
+              #renduComponent
+              [matiereIdFilter]="matiereIdFilter"
+              [matiereList]="matiereList"
+            />
           </div>
         </div>
       </div>
@@ -44,7 +72,7 @@
       </div>
 
       <div *ngSwitchCase="role.etudiant">
-        <app-assignments-cardlist />
+        <app-assignments-cardlist [matiereIdFilter]="matiereIdFilter" />
       </div>
     </div>
   </mat-card-content>

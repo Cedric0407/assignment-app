@@ -1,18 +1,20 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Assignment } from '../../../model/assignment.model';
 import { AssignmentsService } from '../../../shared/services/assignments.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { ROLE } from '../../helpers/constants';
+import { Matiere } from 'src/app/model/matiere';
 @Component({
   selector: 'app-assignments-cardlist',
   templateUrl: './assignments-cardlist.component.html',
   styleUrls: ['./assignments-cardlist.component.css']
 })
-export class AssignmentsCardlistComponent {
+export class AssignmentsCardlistComponent implements OnChanges {
   assignments: Assignment[] = [];
 
   // propriétés pour la pagination
-  page: number = 1;
+  page: number = 0;
   limit: number = 10;
   totalDocs: number = 0;
   totalPages: number = 0;
@@ -24,6 +26,9 @@ export class AssignmentsCardlistComponent {
   isInitialized = false;
 
   @Input() rendu?: boolean;
+
+  @Input() matiereIdFilter!: string;
+  @Input() matiereList!: Matiere[];
 
   constructor(
     public authservice: AuthService,
@@ -44,17 +49,30 @@ export class AssignmentsCardlistComponent {
         this.page = params['page'] as number;
         this.limit = params['limit'] as number;
       }
-
       this.getAssignments();
 
     })
 
-
-    //this.getAssignments();
   }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['matiereIdFilter'] || changes['matiereList']) {
+      this.getAssignments()
+    }
+  }
+
   getAssignments() {
     console.log("On va chercher les assignments dans le service", this.rendu);
-    this.assignmentsService.getAssignments(this.page, this.limit, this.rendu)
+
+    const filter: any = {};
+    if (this.rendu !== undefined) filter.rendu == this.rendu
+    if (this.authservice.userRole === ROLE.etudiant) filter.idEtudiant = this.authservice.userConnected._id
+    if (this.matiereIdFilter) {
+      filter.idMatieres = [this.matiereIdFilter]
+    } else if (this.authservice.userRole === ROLE.professeur) {
+      filter.idMatieres = this.matiereList.map(elt => elt._id)
+    }
+    this.assignmentsService.getAssignmentsQuery(this.page, this.limit, filter)
       .subscribe(data => {
         this.assignments = data.docs;
         this.page = data.page;

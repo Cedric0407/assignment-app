@@ -9,6 +9,8 @@ import { AssignmentsCardlistComponent } from 'src/app/shared/components/assignme
 import { ModalRendreAssignmentComponent } from '../../shared/components/modal-rendre-assignment/modal-rendre-assignment.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ROLE } from 'src/app/shared/helpers/constants';
+import { MatieresService } from '../../shared/services/matieres.service';
+import { Matiere } from 'src/app/model/matiere';
 
 @Component({
   selector: 'app-assignments',
@@ -24,13 +26,33 @@ export class AssignmentsComponent {
   @ViewChild('nonRenduComponent', { static: false }) nonRenduElt!: AssignmentsCardlistComponent;
   assignmentToRendre?: Assignment;
   role = ROLE;
-
+  matiereList: Matiere[] = [];
+  matiereIdFilter!: string;
   constructor(
+    private matieresService: MatieresService,
     public authservice: AuthService,
     private route: ActivatedRoute,
     private dialog: MatDialog
+
   ) { }
 
+  ngOnInit(): void {
+    this.getMatieres()
+  }
+
+  getMatieres() {
+    let filter;
+    if (this.matiereIdFilter) {
+      filter = { idMatiere: this.matiereIdFilter }
+    }
+    this.matieresService.getMatieres(filter).subscribe(resp => {
+      this.matiereList = resp;
+    })
+  }
+
+  handleMatiereChange(event) {
+    this.matiereIdFilter = event
+  }
 
   selectTab(tabNumber: number) {
     this.selectedTab = tabNumber;

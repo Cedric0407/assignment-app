@@ -15,13 +15,19 @@ export class MatieresService {
 
   uri_api = 'http://localhost:8010/api/matieres';
 
-  getMatieres(page?: number, limit?: number): Observable<any> {
+  getMatieres(filter: { idMatiere?: string; } = undefined): Observable<any> {
 
+    let renduFilter = '';
+    if (filter) {
+      for (let property in filter) {
+        renduFilter += `&${property}=${filter[property]}`
+      }
+    }
 
     const headers = new HttpHeaders()
       .set('x-access-token', encodeURIComponent(this.authService.token as string));
 
-    return this.http.get<Matiere[]>(this.uri_api + "?page=" + page + "&limit=" + limit, { headers });
+    return this.http.get<Matiere[]>(this.uri_api + "?" + renduFilter, { headers });
 
   }
 
