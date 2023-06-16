@@ -31,10 +31,10 @@ export class MatieresService {
 
   }
 
-  getMatiere(id: number): Observable<Matiere | undefined> {
+  getMatiere(id: string): Observable<Matiere | undefined> {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
 
-    return this.http.get<Matiere | undefined>(`${this.uri_api}/${id}`)
+    return this.http.get<Matiere | undefined>(`${this.uri_api}/${id}`, { headers })
 
   }
 
@@ -61,11 +61,18 @@ export class MatieresService {
 
   }
 
-  updateMatiere(matiere: Matiere): Observable<any> {
+  updateMatiere(matiere: Matiere, imageFile: any): Observable<any> {
 
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
-
-    return this.http.put<Matiere>(this.uri_api, matiere, { headers });
+    const uploadData: any = { _id: matiere._id };
+    for (let property in matiere) {
+      if (matiere[property]) {
+        if (property === 'professeur') uploadData[property] = JSON.stringify(matiere[property]);
+        else uploadData[property] = matiere[property];
+      }
+    }
+    uploadData['image'] = imageFile ?? null;
+    return this.http.put<Matiere>(this.uri_api, uploadData, { headers });
   }
 
   deleteMatiere(matiere: Matiere): Observable<any> {

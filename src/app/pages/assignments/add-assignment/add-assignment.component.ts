@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Assignment } from '../../../model/assignment.model';
 import { AssignmentsService } from 'src/app/shared/services/assignments.service';
 import { Router } from '@angular/router';
-import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Matiere } from 'src/app/model/matiere';
 import { MatieresService } from 'src/app/shared/services/matieres.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
@@ -21,7 +21,6 @@ export class AddAssignmentComponent {
 
   infoFormGroup = this.formBuilder.group({
     nom: ['', Validators.required],
-    dateDeRendu: ['', Validators.required],
     matiereId: ['', Validators.required],
 
   });
@@ -29,9 +28,9 @@ export class AddAssignmentComponent {
     imageFile: ['', Validators.required],
   });
   isLinear = true;
-  imageFile!:any;
+  imageFile!: any;
   matiereList: Matiere[] = [];
-  isLoading= true;
+  isLoading = true;
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -40,10 +39,10 @@ export class AddAssignmentComponent {
     private matieresService: MatieresService,
     private notification: NotificationService,
     private authService: AuthService,
-    ) { }
+  ) { }
 
-  ngOnInit(){
-    this.matieresService.getMatieres().subscribe(resp =>{
+  ngOnInit() {
+    this.matieresService.getMatieres().subscribe(resp => {
       this.matiereList = resp;
     })
   }
@@ -56,12 +55,12 @@ export class AddAssignmentComponent {
     this.isLoading = true;
     const matiere = this.matiereList.find(elt => elt._id === this.infoFormGroup.get('matiereId')?.value)
     const assignment = new Assignment();
-      assignment.nom= this.infoFormGroup.get('nom')?.value as string,
-      assignment.matiere= matiere as Matiere;
-      assignment.dateDeRendu= new Date(this.infoFormGroup.get('dateDeRendu')?.value ?? '');
-      assignment.auteur= this.authService.userConnected as User;
+    assignment.nom = this.infoFormGroup.get('nom')?.value as string,
+      assignment.matiere = matiere as Matiere;
+    assignment.dateDeRendu = new Date();
+    assignment.auteur = this.authService.userConnected as User;
 
-      this.assignmentsService.addAssignment(assignment as Assignment, this.imageFile).subscribe(resp => {
+    this.assignmentsService.addAssignment(assignment as Assignment, this.imageFile).subscribe(resp => {
       this.isLoading = false;
       this.notification.showNotification("Devoir enregistrée", "success");
       this.router.navigateByUrl("assignments")

@@ -17,7 +17,7 @@
                 matiereForm.get('nom')?.touched
               "
             >
-              Nom is required.
+              Nom est obligatoire.
             </mat-error>
           </mat-form-field>
         </div>
@@ -36,7 +36,7 @@
                 matiereForm.get('profId')?.touched
               "
             >
-              Role is required.
+              Role est obligatoire.
             </mat-error>
           </mat-form-field>
         </div>
@@ -57,12 +57,14 @@
                 matiereForm.get('imageFile')?.touched
               "
             >
-              Image Path is required.
+              Image Path est obligatoire.
             </mat-error>
           </div>
         </div>
 
         <div class="footer">
+          <button mat-button (click)="cancel()"  type="reset">Annuler</button>
+
           <button
             mat-raised-button
             color="primary"

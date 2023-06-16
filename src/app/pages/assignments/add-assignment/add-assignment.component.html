@@ -2,50 +2,34 @@
   <mat-step [stepControl]="infoFormGroup">
     <form [formGroup]="infoFormGroup" class="form">
       <ng-template matStepLabel>Remplissez les informations</ng-template>
-        <mat-form-field appearance="fill">
-          <mat-label>Nom</mat-label>
-          <input matInput formControlName="nom" required />
-          <mat-error
-            *ngIf="
-              infoFormGroup.get('nom')?.invalid &&
-              infoFormGroup.get('nom')?.touched
-            "
-          >
-            Nom is required.
-          </mat-error>
-        </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput formControlName="nom" required />
+        <mat-error
+          *ngIf="
+            infoFormGroup.get('nom')?.invalid &&
+            infoFormGroup.get('nom')?.touched
+          "
+        >
+          Le nom is est obligatoire.
+        </mat-error>
+      </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Matière</mat-label>
-          <mat-select formControlName="matiereId" required>
-            <ng-template ngFor let-matiere [ngForOf]="matiereList">
-              <mat-option [value]="matiere._id">{{ matiere.nom }}</mat-option>
-            </ng-template>
-          </mat-select>
-          <mat-error
-            *ngIf="
-              infoFormGroup.get('matiereId')?.invalid &&
-              infoFormGroup.get('matiereId')?.touched
-            "
-          >
-            Role is required.
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Date de rendu</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="dateDeRendu" required>
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-          <mat-error
-            *ngIf="
-              infoFormGroup.get('dateDeRendu')?.invalid &&
-              infoFormGroup.get('dateDeRendu')?.touched
-            "
-          >
-            La date de rendu est obligatoire.
-          </mat-error>
+      <mat-form-field appearance="fill">
+        <mat-label>Matière</mat-label>
+        <mat-select formControlName="matiereId" required>
+          <ng-template ngFor let-matiere [ngForOf]="matiereList">
+            <mat-option [value]="matiere._id">{{ matiere.nom }}</mat-option>
+          </ng-template>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            infoFormGroup.get('matiereId')?.invalid &&
+            infoFormGroup.get('matiereId')?.touched
+          "
+        >
+          Role est obligatoire.
+        </mat-error>
       </mat-form-field>
 
       <div>
@@ -72,10 +56,17 @@
         >
           Champ obligatoire.
         </mat-error>
-        </div>
-      <div>
+      </div>
+      <div class="footer">
         <button mat-button matStepperPrevious>Retour</button>
-        <button mat-button (click)="submitAssignment()">Envoyer</button>
+        <button
+          mat-raised-button
+          class="btn-action"
+          color="primary"
+          (click)="submitAssignment()"
+        >
+          Envoyer
+        </button>
       </div>
     </form>
   </mat-step>

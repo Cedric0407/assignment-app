@@ -2,17 +2,6 @@
   flex: 1 1 auto;
 }
 
-.example-container {
-  height: 100%;
-}
-
-.avatar-img {
-  width: 33px;
-  height: 33px;
-  border: 2px solid #dadada;
-  border-radius: 50%;
-}
-
 .align-center {
   display: flex;
   align-items: end;

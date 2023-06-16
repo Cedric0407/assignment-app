@@ -25,10 +25,10 @@ export class UsersService {
 
   }
 
-  getUser(id: number): Observable<User | undefined> {
+  getUser(id: string): Observable<User | undefined> {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
 
-    return this.http.get<User | undefined>(`${this.uri_api}/${id}`)
+    return this.http.get<User | undefined>(`${this.uri_api}/${id}`, { headers })
 
   }
 
@@ -41,7 +41,7 @@ export class UsersService {
     }
   };
 
-  addUser(user: User, imageFile?: any , password?:string): Observable<any> {
+  addUser(user: User, imageFile?: any, password?: string): Observable<any> {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
     const uploadData = new FormData();
     for (let property in user) {
@@ -56,11 +56,14 @@ export class UsersService {
 
   }
 
-  updateUser(user: User): Observable<any> {
+  updateUser(user: User, imageFile?: any, password?: string): Observable<any> {
 
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
+    const uploadData = { ...user };
+    uploadData['image'] = imageFile ?? null;
+    if (password) uploadData['password'] = password;
 
-    return this.http.put<User>(this.uri_api, user, { headers });
+    return this.http.put<User>(this.uri_api, uploadData, { headers });
   }
 
   deleteUser(user: User): Observable<any> {

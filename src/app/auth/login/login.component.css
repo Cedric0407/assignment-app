@@ -1,6 +1,12 @@
 .form-container {
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.btn-login {
+  padding: 1em;
+  width: fit-content;
+  margin: 0 auto;
 }

@@ -22,7 +22,7 @@ export class AssignmentDetailComponent implements OnInit {
     // appelée avant le rendu du composant
     // on va chercher l'id dans l'url active
     // en mettant + on force la conversion en number
-    const id = +this.route.snapshot.params['id'];
+    const id = this.route.snapshot.params['id'];
     console.log("Dans le ngOnInit de detail, id = " + id);
 
     // on va chercher l'assignment à afficher
@@ -33,7 +33,6 @@ export class AssignmentDetailComponent implements OnInit {
 
     this.authService.isAdmin().then(resp => {
       this.isAdmin = resp;
-      console.log("this.isAdmin", this.isAdmin)
     })
   }
 

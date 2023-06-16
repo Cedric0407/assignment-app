@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { Assignment } from '../../../model/assignment.model';
 import { AssignmentsService } from '../../../shared/services/assignments.service';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ModalConfirmationDeleteComponent } from 'src/app/shared/components/modal-confirmation-delete/modal-confirmation-delete.component';
 @Component({
   selector: 'app-assignments-datalist',
   templateUrl: './assignments-datalist.component.html',
@@ -11,9 +13,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AssignmentsDatalistComponent {
   assignments: Assignment[] = [];
+  @Input() matiereIdFilter!: string;
 
   // propriétés pour la pagination
-  page: number = 0;
+  page: number = 1;
   limit: number = 10;
   totalDocs: number = 0;
   totalPages: number = 0;
@@ -24,12 +27,13 @@ export class AssignmentsDatalistComponent {
   ;
   isInitialized = false;
 
-  displayedColumns: string[] = ['matiere', 'etudiant', 'nom', 'dateDeRendu', 'rendu'];
+  displayedColumns: string[] = ['matiere', 'etudiant', 'nom', 'dateDeRendu', 'rendu', 'action'];
 
   constructor(
     public authservice: AuthService,
     private assignmentsService: AssignmentsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) { }
 
 
@@ -53,10 +57,20 @@ export class AssignmentsDatalistComponent {
 
     //this.getAssignments();
   }
-  getAssignments() {
-    console.log("On va chercher les assignments dans le service");
 
-    this.assignmentsService.getAssignments(this.page, this.limit)
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['matiereIdFilter'] || changes['matiereList']) {
+      this.getAssignments()
+    }
+  }
+
+  getAssignments() {
+    console.log("On va chercher les assignments dans le service", this.page, this.limit);
+    const filter: any = {};
+    if (this.matiereIdFilter) {
+      filter.idMatieres = [this.matiereIdFilter]
+    }
+    this.assignmentsService.getAssignmentsQuery(this.page, this.limit, filter)
       .subscribe(data => {
         this.assignments = data.docs;
         this.page = data.page;
@@ -93,10 +107,25 @@ export class AssignmentsDatalistComponent {
 
   // Pour mat-paginator
   handlePage(event: any) {
-    console.log(event);
+
 
     this.page = event.pageIndex;
     this.limit = event.pageSize;
     this.getAssignments();
+  }
+
+  openModalDelete(row: Assignment) {
+    const dialogRef: MatDialogRef<ModalConfirmationDeleteComponent> = this.dialog.open(ModalConfirmationDeleteComponent, {
+      width: '600px',
+      data: {
+        entity: row,
+        model: 'Assignment'
+      }
+    });
+
+    // Vous pouvez également écouter les événements de la modal si nécessaire
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) this.getAssignments()
+    });
   }
 }

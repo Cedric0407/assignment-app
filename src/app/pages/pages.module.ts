@@ -47,6 +47,7 @@ import { AddMatiereComponent } from './matieres/add-matiere/add-matiere.componen
 import { EditMatiereComponent } from './matieres/edit-matiere/edit-matiere.component';
 import { EditUserComponent } from './users/edit-user/edit-user.component';
 import { AddUserComponent } from './users/add-user/add-user.component';
+import { ModalConfirmationDeleteComponent } from '../shared/components/modal-confirmation-delete/modal-confirmation-delete.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { AddUserComponent } from './users/add-user/add-user.component';
     AddMatiereComponent,
     EditMatiereComponent,
     EditUserComponent,
-    AddUserComponent
+    AddUserComponent,
+    ModalConfirmationDeleteComponent
   ],
   imports: [
     CommonModule, FormsModule, ReactiveFormsModule,

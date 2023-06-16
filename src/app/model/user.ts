@@ -1,8 +1,8 @@
 export class User {
-  _id!: number;
+  _id!: string;
   email!: string;
   nom!: string;
-  imagePath!: string;
+  imagePath?: string;
   role!: string;
   [key: string]: any;
 }

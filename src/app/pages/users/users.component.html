@@ -2,7 +2,7 @@
   <mat-card-header>
     <h1>Liste des utilisateurs</h1>
     <a routerLink="/users/add">
-      <button mat-flat-button color="accent">Ajouter</button>
+      <button mat-flat-button color="accent" class="add-btn">Ajouter</button>
     </a>
   </mat-card-header>
   <mat-card-content>
@@ -34,6 +34,23 @@
         <ng-container matColumnDef="role">
           <th mat-header-cell *matHeaderCellDef>Type</th>
           <td mat-cell *matCellDef="let element">{{ element.role }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              class="action-col-container"
+              *ngIf="element.role !== role.admin"
+            >
+              <button mat-button (click)="openModalDelete(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <a [routerLink]="[':id/edit', { id: element._id }]"
+                ><button mat-button><mat-icon>edit</mat-icon></button></a
+              >
+            </div>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

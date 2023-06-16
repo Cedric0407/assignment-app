@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AssignmentsService } from 'src/app/shared/services/assignments.service';
 import { Assignment } from '../../../model/assignment.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 @Component({
   selector: 'app-edit-assignment',
@@ -9,15 +10,15 @@ import { Assignment } from '../../../model/assignment.model';
   styleUrls: ['./edit-assignment.component.css'],
 })
 export class EditAssignmentComponent implements OnInit {
-  assignment!: Assignment | undefined;
-  // associées aux champs du formulaire
-  nomAssignment!: string;
-  dateDeRendu!: Date;
+  assignment: Assignment = {} as Assignment;
+
+  isLoading = false;
 
   constructor(
     private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private notification: NotificationService,
   ) { }
 
   ngOnInit(): void {
@@ -26,7 +27,8 @@ export class EditAssignmentComponent implements OnInit {
   getAssignment() {
     // on récupère l'id dans le snapshot passé par le routeur
     // le "+" force l'id de type string en "number"
-    const id = +this.route.snapshot.params['id'];
+    // const id = +this.route.snapshot.params['id'];
+    const id = this.route.snapshot.params['id'];
 
     // Exemple de récupération des query params (après le ? dans l'url)
     const queryParams = this.route.snapshot.queryParams;
@@ -42,24 +44,30 @@ export class EditAssignmentComponent implements OnInit {
       .subscribe((assignment) => {
         if (!assignment) return;
         this.assignment = assignment;
-        // Pour pré-remplir le formulaire
-        this.nomAssignment = assignment.nom;
-        this.dateDeRendu = assignment.dateDeRendu;
       });
   }
+
   onSaveAssignment() {
     if (!this.assignment) return;
-
-    // on récupère les valeurs dans le formulaire
-    this.assignment.nom = this.nomAssignment;
-    this.assignment.dateDeRendu = this.dateDeRendu;
+    this.isLoading = true;
+    if (!this.assignment.rendu) {
+      this.assignment.note = undefined
+      this.assignment.remarques = undefined
+    }
     this.assignmentsService
       .updateAssignment(this.assignment)
       .subscribe((message) => {
-        console.log(message);
-
+        this.isLoading = false;
+        this.notification.showNotification('Modification effectuée.', 'succes');
         // navigation vers la home page
-        this.router.navigate(['/home']);
+        this.router.navigate(['/assignments']);
+      }, err => {
+        this.isLoading = false;
+        this.notification.showNotification('Une erreur s\est survenue.', 'error');
       });
+  }
+
+  cancel() {
+    window.history.back();
   }
 }

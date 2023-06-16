@@ -1,17 +1,62 @@
-<mat-card *ngIf="assignmentTransmis">
-  <mat-card-content>
-    <mat-card-title>{{assignmentTransmis.nom}}</mat-card-title>
-    <mat-card-subtitle>Date de rendu : {{assignmentTransmis.dateDeRendu | date: 'dd/MM/yy'}}</mat-card-subtitle>
+<mat-card class="card-detail">
+  <div class="header">
+    <div class="header-title-container">
+      <div class="img-container">
+        <img
+          class="matiere-img"
+          [src]="
+            assignmentTransmis?.matiere?.imagePath ??
+            'assets/img/matiere_default.png'
+          "
+        />
+      </div>
+      <mat-card-title>{{
+        assignmentTransmis?.matiere?.nom ?? "n/a"
+      }}</mat-card-title>
+    </div>
+    <div class="header-title-container">
+      <div class="img-container">
+        <img
+          class="matiere-img"
+          [src]="
+            assignmentTransmis?.matiere?.professeur?.imagePath ??
+            'assets/img/avatar.png'
+          "
+        />
+      </div>
+      <mat-card-title>{{
+        assignmentTransmis?.matiere?.professeur?.nom ?? "n/a"
+      }}</mat-card-title>
+    </div>
+  </div>
+  <mat-card-content class="grid-container">
+    <div class="grid-item">
+      <span class="label">Nom </span>:
+      <span class="value">{{ assignmentTransmis?.nom }}</span>
+    </div>
+
+    <div class="grid-item">
+      <span class="label">Date d'ajout </span>:
+      <span class="value">{{
+        assignmentTransmis?.dateDeRendu | date : "dd/MM/yy"
+      }}</span>
+    </div>
+
+    <div class="grid-item">
+      <span class="label">Statut </span>:
+      <span class="value">{{
+        assignmentTransmis?.rendu ? "Rendu" : "Non rendu"
+      }}</span>
+    </div>
+
+    <div class="grid-item">
+      <span class="label">Note </span>:
+      <span class="value">{{ assignmentTransmis?.note ?? "N/A" }}</span>
+    </div>
+
+    <div class="grid-item">
+      <span class="label">Remarques: </span>:
+      <span class="value">{{ assignmentTransmis?.remarques ?? "N/A" }}</span>
+    </div>
   </mat-card-content>
-  <mat-card-actions id="bottom">
-    <mat-checkbox *ngIf="!assignmentTransmis.rendu" (click)="onAssignmentRendu()" [disabled]="!isAdmin">
-      Rendu
-    </mat-checkbox>
-
-    <button mat-raised-button color="primary" (click)="onEditAssignment()" [disabled]="!isAdmin">
-      EDIT
-    </button>
-
-    <button mat-raised-button color="accent" (click)="onDeleteAssignment()" [disabled]="!isAdmin">DELETE</button>
-  </mat-card-actions>
 </mat-card>

@@ -16,7 +16,7 @@
                 userForm.get('email')?.invalid && userForm.get('email')?.touched
               "
             >
-              Email is required.
+              Email est obligatoire.
             </mat-error>
           </mat-form-field>
         </div>
@@ -30,7 +30,7 @@
                 userForm.get('name')?.invalid && userForm.get('name')?.touched
               "
             >
-              Name is required.
+              Name est obligatoire.
             </mat-error>
           </mat-form-field>
         </div>
@@ -51,7 +51,7 @@
                 userForm.get('imageFile')?.touched
               "
             >
-              Image Path is required.
+              Image Path est obligatoire.
             </mat-error>
           </div>
         </div>
@@ -59,9 +59,20 @@
         <div class="form-group">
           <mat-form-field appearance="fill">
             <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password" required>
-            <mat-error *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched">
-              Mot de passe obligatoire.
+            <input
+              matInput
+              type="password"
+              formControlName="password"
+              required
+              minlength="6"
+            />
+            <mat-error
+              *ngIf="
+                userForm.get('password')?.invalid &&
+                userForm.get('password')?.touched
+              "
+            >
+              Veuillez saisir au moins 6 caractères.
             </mat-error>
           </mat-form-field>
         </div>
@@ -69,7 +80,12 @@
         <div class="form-group">
           <mat-form-field appearance="fill">
             <mat-label>Confirm Password</mat-label>
-            <input matInput type="password" formControlName="confirmPassword" required>
+            <input
+              matInput
+              type="password"
+              formControlName="confirmPassword"
+              required
+            />
             <mat-error *ngIf="userForm.get('confirmPassword')?.errors">
               Mot de passe différent.
             </mat-error>
@@ -88,11 +104,13 @@
                 userForm.get('role')?.invalid && userForm.get('role')?.touched
               "
             >
-              Role is required.
+              Role est obligatoire.
             </mat-error>
           </mat-form-field>
         </div>
         <div class="footer">
+          <button mat-button (click)="cancel()" type="reset">Annuler</button>
+
           <button
             mat-raised-button
             color="primary"

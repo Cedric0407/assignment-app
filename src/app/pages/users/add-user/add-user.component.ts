@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators , AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { User } from 'src/app/model/user';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { Router } from '@angular/router';
@@ -45,7 +45,7 @@ export class AddUserComponent {
       nom: this.userForm.get('name')?.value,
       role: this.userForm.get('role')?.value
     }
-    this.usersService.addUser(user as User, this.imageFile , this.userForm.get('password')?.value).subscribe(resp => {
+    this.usersService.addUser(user as User, this.imageFile, this.userForm.get('password')?.value).subscribe(resp => {
       this.isLoading = false;
       this.notification.showNotification("Utilisateur enregistré", "success");
       this.route.navigateByUrl("users")
@@ -70,6 +70,10 @@ export class AddUserComponent {
     }
 
     return null;
+  }
+
+  cancel() {
+    window.history.back();
   }
 
 }

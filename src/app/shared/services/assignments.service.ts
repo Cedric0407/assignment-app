@@ -48,6 +48,8 @@ export class AssignmentsService {
 
     }
 
+    console.log("body", body)
+
     const headers = new HttpHeaders()
       .set('x-access-token', encodeURIComponent(this.authService.token as string))
 
@@ -58,31 +60,43 @@ export class AssignmentsService {
     //return of(this.assignments);
   }
 
-  getAssignment(id: number): Observable<Assignment | undefined> {
+  getAssignmentsSansPagination(): Observable<any> {
+
+    const headers = new HttpHeaders()
+      .set('x-access-token', encodeURIComponent(this.authService.token as string));
+
+    return this.http.get<Assignment[]>(this.uri_api + "/filter", { headers });
+
+    // of() permet de créer un Observable qui va
+    // contenir les données du tableau assignments
+    //return of(this.assignments);
+  }
+
+  getAssignment(id: string): Observable<Assignment | undefined> {
     // Plus tard on utilisera un Web Service et une BD
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
 
-    return this.http.get<Assignment | undefined>(`${this.uri_api}/${id}`)
+    return this.http.get<Assignment | undefined>(`${this.uri_api}/${id}`, { headers })
 
-      .pipe(
-        map(a => {
-          if (a) {
-            a.nom += " MAP MAP MAP";
-          }
-          return a;
-        }),
-        tap(a => {
-          if (a)
-            console.log("ICI DANS LE TAP " + a.nom)
-        }),
-        map(a => {
-          if (a) {
-            a.nom += " TOTOTOTO";
-          }
-          return a;
-        }),
-        catchError(this.handleError<Assignment>("Erreur dans le traitement de assignment avec id = " + id))
-      )
+    // .pipe(
+    //   map(a => {
+    //     if (a) {
+    //       a.nom += " MAP MAP MAP";
+    //     }
+    //     return a;
+    //   }),
+    //   tap(a => {
+    //     if (a)
+    //       console.log("ICI DANS LE TAP " + a.nom)
+    //   }),
+    //   map(a => {
+    //     if (a) {
+    //       a.nom += " TOTOTOTO";
+    //     }
+    //     return a;
+    //   }),
+    //   catchError(this.handleError<Assignment>("Erreur dans le traitement de assignment avec id = " + id))
+    // )
 
     // On va chercher dans le tableau des assignments
     // l'assignment dont l'id est celui passé en paramètre

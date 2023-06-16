@@ -24,7 +24,7 @@ export class AssignmentsCardlistComponent implements OnChanges {
   nextPage: number = 0;
   ;
   isInitialized = false;
-
+  role = ROLE;
   @Input() rendu?: boolean;
 
   @Input() matiereIdFilter!: string;
@@ -134,5 +134,9 @@ export class AssignmentsCardlistComponent implements OnChanges {
     this.page = event.pageIndex;
     this.limit = event.pageSize;
     this.getAssignments();
+  }
+
+  get userRole() {
+    return this.authservice.userRole;
   }
 }

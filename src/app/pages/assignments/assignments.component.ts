@@ -11,7 +11,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ROLE } from 'src/app/shared/helpers/constants';
 import { MatieresService } from '../../shared/services/matieres.service';
 import { Matiere } from 'src/app/model/matiere';
-
+import { AssignmentsService } from 'src/app/shared/services/assignments.service';
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
@@ -32,7 +32,8 @@ export class AssignmentsComponent {
     private matieresService: MatieresService,
     public authservice: AuthService,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private assignmentsService: AssignmentsService
 
   ) { }
 
@@ -47,8 +48,26 @@ export class AssignmentsComponent {
     }
     this.matieresService.getMatieres(filter).subscribe(resp => {
       this.matiereList = resp;
+
+      // this.setAssignmentData()
     })
   }
+
+  /*setAssignmentData() { // insertion des matières dans les données existantes
+    this.assignmentsService.getAssignmentsSansPagination().subscribe(resp => {
+      const all = resp
+      const maxIndexMAtiere = (this.matiereList.length - 1);
+      let indexMAtiere = 0;
+      resp.forEach((assignment: Assignment, index) => {
+        indexMAtiere = Math.floor(Math.random() * maxIndexMAtiere)
+        assignment.matiere = this.matiereList[indexMAtiere];
+        this.assignmentsService.updateAssignment(assignment).subscribe(resp2 => {
+          console.log("update q@@@@@@ " + index)
+        })
+      })
+
+    })
+  }*/
 
   handleMatiereChange(event) {
     this.matiereIdFilter = event

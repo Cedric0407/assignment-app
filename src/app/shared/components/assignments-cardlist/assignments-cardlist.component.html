@@ -1,11 +1,11 @@
-<mat-grid-list cols="3" rowHeight="200px">
+<mat-grid-list cols="3" rowHeight="270px">
   <mat-grid-tile
     *ngFor="let a of assignments"
     [colspan]="1"
     [rowspan]="1"
     cdkDrag
     [cdkDragData]="a"
-    [cdkDragDisabled]="rendu"
+    [cdkDragDisabled]="rendu || userRole === role.etudiant"
   >
     <mat-card class="card">
       <mat-card-header>
@@ -23,12 +23,17 @@
       <mat-card-content>
         <mat-card-title>{{ a.nom }}</mat-card-title>
         <mat-card-subtitle
-          >Date limite:
+          >Date d'ajout:
           {{ a.dateDeRendu | date : "dd/MM/yy" }}</mat-card-subtitle
         >
         <p appRendu *ngIf="a.rendu; else nonsoumis">Rendu</p>
         <ng-template #nonsoumis>Non Rendu</ng-template>
-        <a routerLink="/assignments/{{ a._id }}">Voir détail</a>
+
+        <div class="btn-detail-container" style="width: 100%; text-align: end">
+          <a [routerLink]="['/assignments/:id', { id: a._id }]"
+            ><button mat-raised-button color="primary">Voir détail</button></a
+          >
+        </div>
       </mat-card-content>
     </mat-card>
   </mat-grid-tile>

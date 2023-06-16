@@ -2,7 +2,7 @@
   <mat-card-header>
     <h1>Liste des matières</h1>
     <a routerLink="/matieres/add">
-      <button mat-flat-button color="accent">Ajouter</button>
+      <button mat-flat-button color="accent" class="add-btn">Ajouter</button>
     </a>
   </mat-card-header>
   <mat-card-content>
@@ -30,6 +30,20 @@
           <th mat-header-cell *matHeaderCellDef>Professeur</th>
           <td mat-cell *matCellDef="let element">
             {{ element.professeur.nom }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <div class="action-col-container">
+              <button mat-button (click)="openModalDelete(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <a [routerLink]="[':id/edit', { id: element._id }]"
+                ><button mat-button><mat-icon>edit</mat-icon></button></a
+              >
+            </div>
           </td>
         </ng-container>
 

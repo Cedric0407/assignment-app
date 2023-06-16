@@ -2,7 +2,7 @@
   <mat-card-header>
     <h1>{{ titre }}</h1>
     <a routerLink="/assignments/add">
-      <button mat-flat-button color="accent">Ajouter</button>
+      <button mat-flat-button color="accent" class="add-btn">Ajouter</button>
     </a>
   </mat-card-header>
   <mat-card-content>
@@ -68,7 +68,7 @@
       </div>
 
       <div *ngSwitchCase="role.admin">
-        <app-assignments-datalist />
+        <app-assignments-datalist [matiereIdFilter]="matiereIdFilter" />
       </div>
 
       <div *ngSwitchCase="role.etudiant">

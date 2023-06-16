@@ -7,6 +7,7 @@ import { MatieresService } from 'src/app/shared/services/matieres.service';
 import { User } from 'src/app/model/user';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { ROLE } from 'src/app/shared/helpers/constants';
+import { AssignmentsService } from 'src/app/shared/services/assignments.service';
 @Component({
   selector: 'app-add-matiere',
   templateUrl: './add-matiere.component.html',
@@ -23,8 +24,7 @@ export class AddMatiereComponent {
     private matieresService: MatieresService,
     private route: Router,
     private notification: NotificationService,
-    private usersService: UsersService,
-
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {
@@ -35,9 +35,26 @@ export class AddMatiereComponent {
     });
 
     this.usersService.getUsers().subscribe(resp => {
-      this.professeurList = resp.filter((elt: User) => elt.role === ROLE.professeur);
+      this.professeurList = resp.filter((elt: User) => elt.role === ROLE.etudiant);
+      // this.setAssignmentData()
     })
   }
+
+  /*setAssignmentData() { // insertion des auteurs dans les données existantes
+    this.assignmentsService.getAssignmentsSansPagination().subscribe(resp => {
+      const all = resp
+      const maxIndexMAtiere = (this.professeurList.length - 1);
+      let indexMAtiere = 0;
+      resp.forEach((assignment: Assignment, index) => {
+        indexMAtiere = Math.floor(Math.random() * maxIndexMAtiere)
+        assignment.auteur = this.professeurList[indexMAtiere];
+        this.assignmentsService.updateAssignment(assignment).subscribe(resp2 => {
+          console.log("update q@@@@@@ " + index)
+        })
+      })
+
+    })
+  }*/
 
   onSubmit() {
     if (this.matiereForm.invalid) {
@@ -60,4 +77,9 @@ export class AddMatiereComponent {
   onImageSelected(event: any) {
     this.imageFile = event.target.files[0];
   }
+
+  cancel() {
+    window.history.back();
+  }
+
 }
