@@ -3,7 +3,10 @@ import { Assignment } from '../../../model/assignment.model';
 import { AssignmentsService } from 'src/app/shared/services/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { ROLE } from 'src/app/shared/helpers/constants';
 
+import { ModalRendreAssignmentComponent } from '../../../shared/components/modal-rendre-assignment/modal-rendre-assignment.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-assignment-detail',
   templateUrl: './assignment-detail.component.html',
@@ -16,7 +19,9 @@ export class AssignmentDetailComponent implements OnInit {
   constructor(private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     // appelée avant le rendu du composant
@@ -85,5 +90,27 @@ export class AssignmentDetailComponent implements OnInit {
   isLogged() {
     // renvoie si on est loggé ou pas
     return this.authService.loggedIn;
+  }
+
+  get isFilePdf() {
+    return this.assignmentTransmis?.filePath?.includes('pdf');
+  }
+
+  get isProf() {
+    return this.authService.userRole === ROLE.professeur;
+  }
+
+  rendreAction() {
+    const dialogRef: MatDialogRef<ModalRendreAssignmentComponent> = this.dialog.open(ModalRendreAssignmentComponent, {
+      width: '600px',
+      data: {
+        assignment: { ...this.assignmentTransmis, dateDeRendu: new Date(), rendu: true },
+      }
+    });
+
+    // Vous pouvez également écouter les événements de la modal si nécessaire
+    dialogRef.afterClosed().subscribe(result => {
+      this.assignmentTransmis = result.assignment;
+    });
   }
 }

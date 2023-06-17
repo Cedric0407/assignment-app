@@ -32,9 +32,11 @@ export class ModalRendreAssignmentComponent implements OnInit {
       if (this.nonRenduElt) {
         this.nonRenduElt.getAssignments();
         this.notification.showNotification("Modification enregistrée", "success");
+      } else {
+        this.notification.showNotification("Modification enregistrée", "success");
       }
     }, error => {
-      this.nonRenduElt.getAssignments();
+      if (this.nonRenduElt) this.nonRenduElt.getAssignments();
       this.notification.showNotification("Une erreur s'est produite", "error");
     });
     this.dialogRef.close({ assignment: this.assignment });

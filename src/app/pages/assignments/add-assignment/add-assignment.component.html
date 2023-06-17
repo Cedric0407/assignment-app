@@ -28,7 +28,24 @@
             infoFormGroup.get('matiereId')?.touched
           "
         >
-          Role est obligatoire.
+          Matière est obligatoire.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" *ngIf="isAdmin">
+        <mat-label>Étudiant</mat-label>
+        <mat-select formControlName="etudiantId" required>
+          <ng-template ngFor let-user [ngForOf]="etudiantList">
+            <mat-option [value]="user._id">{{ user.nom }}</mat-option>
+          </ng-template>
+        </mat-select>
+        <mat-error
+          *ngIf="
+            infoFormGroup.get('etudiantId')?.invalid &&
+            infoFormGroup.get('etudiantId')?.touched
+          "
+        >
+          Étudiant est obligatoire.
         </mat-error>
       </mat-form-field>
 

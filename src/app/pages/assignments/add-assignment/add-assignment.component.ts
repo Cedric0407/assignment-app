@@ -8,6 +8,8 @@ import { MatieresService } from 'src/app/shared/services/matieres.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { User } from 'src/app/model/user';
+import { UsersService } from 'src/app/shared/services/users.service';
+import { ROLE } from 'src/app/shared/helpers/constants';
 @Component({
   selector: 'app-add-assignment',
   templateUrl: './add-assignment.component.html',
@@ -22,7 +24,7 @@ export class AddAssignmentComponent {
   infoFormGroup = this.formBuilder.group({
     nom: ['', Validators.required],
     matiereId: ['', Validators.required],
-
+    etudiantId: this.authService.userRole === ROLE.admin ? ['', Validators.required] : [''],
   });
   uploadFormGroup = this.formBuilder.group({
     imageFile: ['', Validators.required],
@@ -31,6 +33,7 @@ export class AddAssignmentComponent {
   imageFile!: any;
   matiereList: Matiere[] = [];
   isLoading = true;
+  etudiantList!: User[];
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -39,12 +42,21 @@ export class AddAssignmentComponent {
     private matieresService: MatieresService,
     private notification: NotificationService,
     private authService: AuthService,
+    private usersService: UsersService,
   ) { }
 
   ngOnInit() {
     this.matieresService.getMatieres().subscribe(resp => {
       this.matiereList = resp;
     })
+
+    this.usersService.getUsers().subscribe(resp => {
+      this.etudiantList = resp.filter((elt: User) => elt.role === ROLE.etudiant);
+    })
+  }
+
+  get isAdmin() {
+    return this.authService.userRole === ROLE.admin;
   }
 
   submitAssignment() {
@@ -58,7 +70,13 @@ export class AddAssignmentComponent {
     assignment.nom = this.infoFormGroup.get('nom')?.value as string,
       assignment.matiere = matiere as Matiere;
     assignment.dateDeRendu = new Date();
-    assignment.auteur = this.authService.userConnected as User;
+
+    if (this.isAdmin) {
+      assignment.auteur = this.etudiantList.find((elt: User) => elt._id === this.infoFormGroup.get('etudiantId')?.value)
+    } else {
+      assignment.auteur = this.authService.userConnected as User;
+    }
+
 
     this.assignmentsService.addAssignment(assignment as Assignment, this.imageFile).subscribe(resp => {
       this.isLoading = false;

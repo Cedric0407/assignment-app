@@ -32,6 +32,8 @@ import { DialogModule } from '@angular/cdk/dialog';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { AssignmentDetailComponent } from './assignments/assignment-detail/assignment-detail.component';
 import { AddAssignmentComponent } from './assignments/add-assignment/add-assignment.component';
@@ -78,6 +80,7 @@ import { ModalConfirmationDeleteComponent } from '../shared/components/modal-con
     MatTableModule, MatPaginatorModule, MatTabsModule, MatSidenavModule, MatToolbarModule,
     MatMenuModule, MatDialogModule, MatSelectModule, MatStepperModule, MatGridListModule,
     ScrollingModule, DragDropModule, DialogModule,
+    PdfViewerModule
   ]
 })
 export class PagesModule { }

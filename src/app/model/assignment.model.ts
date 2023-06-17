@@ -10,6 +10,7 @@ export class Assignment {
   remarques!: string;
   matiere!: Matiere;
   auteur!: User;
+  filePath!: String;
   [key: string]: any;
 }
 

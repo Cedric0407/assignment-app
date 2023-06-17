@@ -29,34 +29,77 @@
       }}</mat-card-title>
     </div>
   </div>
-  <mat-card-content class="grid-container">
-    <div class="grid-item">
-      <span class="label">Nom </span>:
-      <span class="value">{{ assignmentTransmis?.nom }}</span>
+  <mat-card-content>
+    <div class="grid-container">
+      <div class="grid-item">
+        <span class="label">Nom </span>:
+        <span class="value">{{ assignmentTransmis?.nom }}</span>
+      </div>
+
+      <div class="grid-item">
+        <span class="label">Date d'ajout </span>:
+        <span class="value">{{
+          assignmentTransmis?.dateDeRendu | date : "dd/MM/yy"
+        }}</span>
+      </div>
+
+      <div class="grid-item">
+        <span class="label">Statut </span>:
+        <span class="value">{{
+          assignmentTransmis?.rendu ? "Rendu" : "Non rendu"
+        }}</span>
+      </div>
+
+      <div class="grid-item">
+        <span class="label">Note </span>:
+        <span class="value">{{ assignmentTransmis?.note ?? "N/A" }}</span>
+      </div>
+
+      <div class="grid-item">
+        <span class="label">Remarques: </span>:
+        <span class="value">{{ assignmentTransmis?.remarques ?? "N/A" }}</span>
+      </div>
     </div>
 
-    <div class="grid-item">
-      <span class="label">Date d'ajout </span>:
-      <span class="value">{{
-        assignmentTransmis?.dateDeRendu | date : "dd/MM/yy"
-      }}</span>
+    <div class="preview-title">
+      <span class="label">Devoir </span>:<span
+        class="value"
+        *ngIf="!assignmentTransmis?.filePath"
+        >N/A</span
+      >
     </div>
 
-    <div class="grid-item">
-      <span class="label">Statut </span>:
-      <span class="value">{{
-        assignmentTransmis?.rendu ? "Rendu" : "Non rendu"
-      }}</span>
+    <div class="footer" *ngIf="isProf && !assignmentTransmis?.rendu">
+      <button
+        mat-raised-button
+        class="btn-action"
+        color="primary"
+        (click)="rendreAction()"
+      >
+        Rendre
+      </button>
     </div>
 
-    <div class="grid-item">
-      <span class="label">Note </span>:
-      <span class="value">{{ assignmentTransmis?.note ?? "N/A" }}</span>
+    <div *ngIf="isFilePdf; else imagePreview">
+      <pdf-viewer
+        [src]="assignmentTransmis?.filePath"
+        [original-size]="true"
+        [render-text]="true"
+        [rotation]="0"
+        [show-all]="false"
+        [fit-to-page]="true"
+        [zoom]="1"
+        [zoom-scale]="'page-width'"
+        [external-link-target]="'blank'"
+        [autoresize]="true"
+        [show-borders]="false"
+        class="pdf-viewer"
+      ></pdf-viewer>
     </div>
-
-    <div class="grid-item">
-      <span class="label">Remarques: </span>:
-      <span class="value">{{ assignmentTransmis?.remarques ?? "N/A" }}</span>
-    </div>
+    <ng-template #imagePreview>
+      <div *ngIf="assignmentTransmis?.filePath" class="image-preview-container">
+        <img [src]="assignmentTransmis?.filePath" class="img-preview" />
+      </div>
+    </ng-template>
   </mat-card-content>
 </mat-card>
