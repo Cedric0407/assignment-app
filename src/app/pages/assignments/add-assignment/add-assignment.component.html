@@ -57,13 +57,13 @@
   <mat-step [stepControl]="uploadFormGroup" label="Téléverser votre devoir">
     <form [formGroup]="uploadFormGroup" class="form">
       <div class="mat-mdc-form-field">
-        <mat-label>Devoir</mat-label>
+        <mat-label>Devoir( image ou pdf)</mat-label>
         <input
           type="file"
           formControlName="imageFile"
           required
           (change)="onImageSelected($event)"
-          accept="image/*"
+          accept="image/*,application/pdf"
         />
         <mat-error
           *ngIf="
