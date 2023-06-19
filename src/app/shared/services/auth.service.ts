@@ -12,7 +12,7 @@ import { ENDPOINT } from '../helpers/constants';
 })
 export class AuthService {
 
-  uri_api = `${ENDPOINT}auth`;
+  uri_api = `${ENDPOINT}api/auth`;
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) { }
@@ -35,8 +35,9 @@ export class AuthService {
         map((response: any) => {
           if (response.user && response.token) {
             localStorage.setItem('token', response.token);
-            const user: User = { ...response.user, id: response.user?._id };
-            localStorage.setItem('user', JSON.stringify(response.user));
+            const profilImg = response.user.imagePath ? ENDPOINT + response.user.imagePath : ''
+            const user: User = { ...response.user, id: response.user?._id , imagePath: profilImg  };
+            localStorage.setItem('user', JSON.stringify(user));
             let todayTime = new Date().getTime()
             localStorage.setItem('expirationTime', (todayTime + response.expirationTime).toString());
           }

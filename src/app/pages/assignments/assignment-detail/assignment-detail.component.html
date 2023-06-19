@@ -19,13 +19,13 @@
         <img
           class="matiere-img"
           [src]="
-            assignmentTransmis?.matiere?.professeur?.imagePath ??
+            (isProf ? assignmentTransmis?.auteur?.imagePath : assignmentTransmis?.matiere?.professeur?.imagePath) ??
             'assets/img/avatar.png'
           "
         />
       </div>
       <mat-card-title>{{
-        assignmentTransmis?.matiere?.professeur?.nom ?? "n/a"
+        (isProf ? assignmentTransmis?.auteur?.nom : assignmentTransmis?.matiere?.professeur?.nom) ?? "n/a"
       }}</mat-card-title>
     </div>
   </div>
@@ -56,7 +56,7 @@
       </div>
 
       <div class="grid-item">
-        <span class="label">Remarques: </span>:
+        <span class="label">Remarques </span>:
         <span class="value">{{ assignmentTransmis?.remarques ?? "N/A" }}</span>
       </div>
     </div>

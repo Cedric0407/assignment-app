@@ -14,7 +14,7 @@ export class MatieresService {
     private http: HttpClient
   ) { }
 
-  uri_api = `${ENDPOINT}matieres`;
+  uri_api = `${ENDPOINT}api/matieres`;
 
   
   getMatieres(filter: { idMatiere?: string; } = undefined): Observable<any> {
@@ -29,7 +29,17 @@ export class MatieresService {
     const headers = new HttpHeaders()
       .set('x-access-token', encodeURIComponent(this.authService.token as string));
 
-    return this.http.get<Matiere[]>(this.uri_api + "?" + renduFilter, { headers });
+    return this.http.get<Matiere[]>(this.uri_api + "?" + renduFilter, { headers }).pipe(
+      map(matieres =>{
+        matieres.map(matiere =>{
+            if(matiere.imagePath){
+              matiere.imagePath = ENDPOINT + matiere.imagePath;
+            }
+            return matiere;
+          })
+           return matieres;
+        })
+      )
 
   }
 
@@ -37,7 +47,14 @@ export class MatieresService {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
 
     return this.http.get<Matiere | undefined>(`${this.uri_api}/${id}`, { headers })
-
+      .pipe(
+        map(matiere =>{
+          if(matiere.imagePath){
+            matiere.imagePath = ENDPOINT + matiere.imagePath;
+          }
+          return matiere;
+        })
+      )
   }
 
   private handleError<T>(operation: any, result?: T) {

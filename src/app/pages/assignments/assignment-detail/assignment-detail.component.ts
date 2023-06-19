@@ -34,6 +34,7 @@ export class AssignmentDetailComponent implements OnInit {
     this.assignmentsService.getAssignment(id)
       .subscribe(assignment => {
         this.assignmentTransmis = assignment;
+        console.log("this.assignmentTransmis" , this.assignmentTransmis)
       });
 
     this.authService.isAdmin().then(resp => {
@@ -110,7 +111,7 @@ export class AssignmentDetailComponent implements OnInit {
 
     // Vous pouvez également écouter les événements de la modal si nécessaire
     dialogRef.afterClosed().subscribe(result => {
-      this.assignmentTransmis = result.assignment;
+      if(result)this.assignmentTransmis = result.assignment;
     });
   }
 }

@@ -18,7 +18,8 @@ export class AssignmentsService {
     private authService: AuthService,
     private http: HttpClient) { }
 
-  uri_api = `${ENDPOINT}assignments`;
+  uri_api = `${ENDPOINT}api/assignments`;
+
 
   getAssignments(page: number, limit: number, filter: { rendu?: boolean; idMatiere?: string; idEtudiant?: string } = undefined): Observable<any> {
 
@@ -32,8 +33,28 @@ export class AssignmentsService {
     const headers = new HttpHeaders()
       .set('x-access-token', encodeURIComponent(this.authService.token as string));
 
-    return this.http.get<Assignment[]>(this.uri_api + "?page=" + page + "&limit=" + limit + renduFilter, { headers });
+    return this.http.get<any>(this.uri_api + "?page=" + page + "&limit=" + limit + renduFilter, { headers })
+    .pipe(
+        map((resp:any)  =>{
 
+          const docs = resp.docs.map(doc => {
+            if(doc.filePath){
+              doc.filePath = ENDPOINT + doc.filePath;
+            }
+            if(doc.matiere?.imagePath){
+              doc.matiere.imagePath = ENDPOINT + doc.matiere.imagePath
+              if(doc.matiere.professeur?.imagePath){
+                doc.matiere.professeur.imagePath = ENDPOINT + doc.matiere.professeur.imagePath
+              }
+            }
+            if(doc.auteur?.imagePath){
+              doc.auteur.imagePath = ENDPOINT + doc.auteur.imagePath
+            }
+            return doc;
+          })
+          return {...resp , docs};
+        })
+      );
     // of() permet de créer un Observable qui va
     // contenir les données du tableau assignments
     //return of(this.assignments);
@@ -53,7 +74,28 @@ export class AssignmentsService {
     const headers = new HttpHeaders()
       .set('x-access-token', encodeURIComponent(this.authService.token as string))
 
-    return this.http.post<Assignment[]>(this.uri_api + "/filter", body, { headers });
+    return this.http.post<any>(this.uri_api + "/filter", body, { headers })
+      .pipe(
+        map(resp =>{
+
+          const docs = resp.docs.map(doc => {
+            if(doc.filePath){
+              doc.filePath = ENDPOINT + doc.filePath;
+            }
+            if(doc.matiere?.imagePath){
+              doc.matiere.imagePath = ENDPOINT + doc.matiere.imagePath
+              if(doc.matiere.professeur?.imagePath){
+                doc.matiere.professeur.imagePath = ENDPOINT + doc.matiere.professeur.imagePath
+              }
+            }
+            if(doc.auteur?.imagePath){
+              doc.auteur.imagePath = ENDPOINT + doc.auteur.imagePath
+            }
+            return doc;
+          })
+          return {...resp , docs};
+        })
+      );
 
     // of() permet de créer un Observable qui va
     // contenir les données du tableau assignments
@@ -77,7 +119,23 @@ export class AssignmentsService {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
 
     return this.http.get<Assignment | undefined>(`${this.uri_api}/${id}`, { headers })
-
+      .pipe(
+        map(a => {
+          if (a.filePath) {
+            a.filePath = ENDPOINT + a.filePath;
+          }
+            if(a.matiere?.imagePath){
+              a.matiere.imagePath = ENDPOINT + a.matiere.imagePath
+              if(a.matiere.professeur?.imagePath){
+                a.matiere.professeur.imagePath = ENDPOINT + a.matiere.professeur.imagePath
+              }
+            }
+            if(a.auteur?.imagePath){
+              a.auteur.imagePath = ENDPOINT + a.auteur.imagePath
+            }
+          return a;
+        })
+      )
     // .pipe(
     //   map(a => {
     //     if (a) {

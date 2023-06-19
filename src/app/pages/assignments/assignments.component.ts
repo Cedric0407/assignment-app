@@ -54,16 +54,16 @@ export class AssignmentsComponent {
   }
 
   /*setAssignmentData() { // insertion des matières dans les données existantes
-    const file = ['http://localhost:8010/uploads\\1686981465476-sample.pdf', "http://localhost:8010/uploads\\1686982809343-solution_chaînage.png"
-    ]
+    // const file = ['uploads\\1686981465476-sample.pdf', "uploads\\1686982809343-solution_chaînage.png"]
     this.assignmentsService.getAssignmentsSansPagination().subscribe(resp => {
       const all = resp
-      const maxIndexMAtiere = (file.length - 1);
+      // const maxIndexMAtiere = (file.length - 1);
+      const maxIndexMAtiere = (this.matiereList.length - 1);
       let indexMAtiere = 0;
       resp.forEach((assignment: Assignment, index) => {
         indexMAtiere = Math.floor(Math.random() * maxIndexMAtiere)
-        assignment.filePath = file[indexMAtiere];
-        assignment.dateDeRendu = new Date();
+        assignment.matiere = this.matiereList[indexMAtiere];
+        // assignment.dateDeRendu = new Date();
 
         this.assignmentsService.updateAssignment(assignment).subscribe(resp2 => {
           console.log("update q@@@@@@ " + index)

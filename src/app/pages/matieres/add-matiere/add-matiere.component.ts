@@ -8,6 +8,7 @@ import { User } from 'src/app/model/user';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { ROLE } from 'src/app/shared/helpers/constants';
 import { AssignmentsService } from 'src/app/shared/services/assignments.service';
+import { Assignment } from 'src/app/model/assignment.model'
 @Component({
   selector: 'app-add-matiere',
   templateUrl: './add-matiere.component.html',
@@ -24,6 +25,7 @@ export class AddMatiereComponent {
     private matieresService: MatieresService,
     private route: Router,
     private notification: NotificationService,
+    private assignmentsService: AssignmentsService,
     private usersService: UsersService
   ) { }
 
@@ -34,8 +36,8 @@ export class AddMatiereComponent {
       imageFile: ['', Validators.required]
     });
 
-    this.usersService.getUsers().subscribe(resp => {
-      this.professeurList = resp.filter((elt: User) => elt.role === ROLE.etudiant);
+    this.usersService.getUsers(false).subscribe(resp => {
+      this.professeurList = resp.filter((elt: User) => elt.role === ROLE.professeur);
       // this.setAssignmentData()
     })
   }
