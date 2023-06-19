@@ -6,7 +6,28 @@
 }
 
 .btn-login {
-  padding: 1em;
   width: fit-content;
   margin: 0 auto;
+  border-width: 4px;
+  padding: 21px 18px;
+  text-transform: uppercase;
+}
+
+.btn-login:hover {
+  background-color: rgb(77, 77, 255);
+  color: white;
+}
+
+.card-container {
+  padding: 2em 6em;
+  border: 3px solid #a4a4a4;
+  border-radius: 14px;
+  width: 350px;
+  text-align: center;
+  box-shadow: -7px -5px 25px rgba(18, 18, 12, 0.2);
+}
+
+.logo-img {
+  width: 165px;
+  height: auto;
 }

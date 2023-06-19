@@ -1,7 +1,8 @@
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 
 <div class="form-container">
-  <div>
+  <div class="card-container">
+    <img src="assets/img/logo.png" class="logo-img" />
     <h1>Se connecter</h1>
     <form ngForm class="form" #formLogin (submit)="onLogin()">
       <div>
@@ -12,6 +13,7 @@
             placeholder="Username"
             [(ngModel)]="login"
             name="login"
+            class="mat-form-field-invalid"
           />
         </mat-form-field>
       </div>
@@ -25,14 +27,15 @@
             type="password"
             [(ngModel)]="password"
             name="password"
+            class="mat-form-field-invalid"
           />
         </mat-form-field>
       </div>
 
       <button
-         mat-raised-button
-            color="primary"
-        [disabled]="!password || !login ||isLoading"
+        mat-stroked-button
+        color="primary"
+        [disabled]="!password || !login || isLoading"
         type="submit"
         class="btn-login"
       >
