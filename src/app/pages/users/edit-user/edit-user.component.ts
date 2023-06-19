@@ -41,9 +41,11 @@ export class EditUserComponent {
   }
 
   initData() {
+    this.isLoading = true;
     this.usersService.getUser(this._id).subscribe(rep => {
       const value = { email: rep.email, name: rep.nom, role: rep.role };
       this.userForm.patchValue(value);
+      this.isLoading = false;
     })
   }
 

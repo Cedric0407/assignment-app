@@ -1,3 +1,5 @@
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
 <div class="form-container">
   <div>
     <h1>Se connecter</h1>
@@ -30,7 +32,7 @@
       <button
          mat-raised-button
             color="primary"
-        [disabled]="!password || !login"
+        [disabled]="!password || !login ||isLoading"
         type="submit"
         class="btn-login"
       >

@@ -35,9 +35,11 @@ export class AddMatiereComponent {
       profId: ['', Validators.required],
       imageFile: ['', Validators.required]
     });
+    this.isLoading = true;
 
     this.usersService.getUsers(false).subscribe(resp => {
       this.professeurList = resp.filter((elt: User) => elt.role === ROLE.professeur);
+      this.isLoading = false;
       // this.setAssignmentData()
     })
   }

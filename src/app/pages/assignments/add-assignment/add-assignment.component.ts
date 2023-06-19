@@ -10,6 +10,8 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { User } from 'src/app/model/user';
 import { UsersService } from 'src/app/shared/services/users.service';
 import { ROLE } from 'src/app/shared/helpers/constants';
+import { forkJoin } from 'rxjs';
+
 @Component({
   selector: 'app-add-assignment',
   templateUrl: './add-assignment.component.html',
@@ -32,7 +34,7 @@ export class AddAssignmentComponent {
   isLinear = true;
   imageFile!: any;
   matiereList: Matiere[] = [];
-  isLoading = true;
+  isLoading = false;
   etudiantList!: User[];
 
   constructor(
@@ -46,13 +48,15 @@ export class AddAssignmentComponent {
   ) { }
 
   ngOnInit() {
-    this.matieresService.getMatieres().subscribe(resp => {
-      this.matiereList = resp;
+    this.isLoading = true;
+
+    forkJoin({req1:this.matieresService.getMatieres() , req2: this.usersService.getUsers()}).subscribe(resp =>{
+      this.matiereList = resp.req1;
+      this.etudiantList = resp.req2.filter((elt: User) => elt.role === ROLE.etudiant);
+      this.isLoading = false;
     })
 
-    this.usersService.getUsers().subscribe(resp => {
-      this.etudiantList = resp.filter((elt: User) => elt.role === ROLE.etudiant);
-    })
+
   }
 
   get isAdmin() {

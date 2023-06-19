@@ -38,6 +38,7 @@ export class EditMatiereComponent {
     });
 
     this._id = this.route.snapshot.params['id'];
+    this.isLoading = true;
 
     this.usersService.getUsers().subscribe(resp => {
       this.professeurList = resp.filter((elt: User) => elt.role === ROLE.professeur);
@@ -50,6 +51,7 @@ export class EditMatiereComponent {
       const value = { nom: rep.nom, profId: rep.professeur._id };
       console.log(value)
       this.matiereForm.patchValue(value);
+      this.isLoading = false;
     })
   }
 

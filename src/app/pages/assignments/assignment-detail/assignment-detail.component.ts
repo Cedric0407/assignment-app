@@ -15,6 +15,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis?: Assignment;
   isAdmin = false;
+  isLoading = false;
 
   constructor(private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
@@ -29,12 +30,13 @@ export class AssignmentDetailComponent implements OnInit {
     // en mettant + on force la conversion en number
     const id = this.route.snapshot.params['id'];
     console.log("Dans le ngOnInit de detail, id = " + id);
-
+    this.isLoading = true;
     // on va chercher l'assignment à afficher
     this.assignmentsService.getAssignment(id)
       .subscribe(assignment => {
         this.assignmentTransmis = assignment;
         console.log("this.assignmentTransmis" , this.assignmentTransmis)
+        this.isLoading = false;
       });
 
     this.authService.isAdmin().then(resp => {
@@ -46,14 +48,14 @@ export class AssignmentDetailComponent implements OnInit {
     if (!this.assignmentTransmis) return;
 
     console.log("Suppression de l'assignment " + this.assignmentTransmis.nom);
-
+    this.isLoading = true;
     // on demande au service la suppression de l'assignment
     this.assignmentsService.deleteAssignment(this.assignmentTransmis)
       .subscribe(message => {
         console.log(message);
         // Pour cacher le detail, on met l'assignment à null
         this.assignmentTransmis = undefined;
-
+        this.isLoading = false;
         // et on navigue vers la page d'accueil
         this.router.navigate(["/home"]);
       });
@@ -62,13 +64,14 @@ export class AssignmentDetailComponent implements OnInit {
 
   onAssignmentRendu() {
     if (!this.assignmentTransmis) return;
-
+    this.isLoading = true;
     this.assignmentTransmis.rendu = true;
 
     // on appelle le service pour faire l'update
     this.assignmentsService.updateAssignment(this.assignmentTransmis)
       .subscribe(message => {
         console.log(message);
+        this.isLoading = false;
       });
   }
 

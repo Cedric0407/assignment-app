@@ -27,6 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { DialogModule } from '@angular/cdk/dialog';
 import { ScrollingModule } from '@angular/cdk/scrolling';
@@ -78,7 +79,7 @@ import { ModalConfirmationDeleteComponent } from '../shared/components/modal-con
     MatInputModule, MatFormFieldModule, MatDatepickerModule,
     MatListModule, MatCardModule, MatCheckboxModule, MatSlideToggleModule,
     MatTableModule, MatPaginatorModule, MatTabsModule, MatSidenavModule, MatToolbarModule,
-    MatMenuModule, MatDialogModule, MatSelectModule, MatStepperModule, MatGridListModule,
+    MatMenuModule, MatDialogModule, MatSelectModule, MatStepperModule, MatGridListModule,MatProgressBarModule,
     ScrollingModule, DragDropModule, DialogModule,
     PdfViewerModule
   ]

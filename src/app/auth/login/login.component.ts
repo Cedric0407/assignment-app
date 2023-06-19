@@ -11,6 +11,7 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 export class LoginComponent {
   login!: string;
   password!: string;
+  isLoading=false;
 
   constructor(
     private authService: AuthService,
@@ -19,13 +20,16 @@ export class LoginComponent {
   ) { }
 
   onLogin(): void {
+    this.isLoading=true;
     this.authService.logIn(this.login, this.password).subscribe(
       (resp) => {
+         this.isLoading=false;
         if (resp.token) {
           this.router.navigate(['/']);
         }
       },
       (error) => {
+         this.isLoading=false;
         console.log("error.error", error.error)
         if (error.error.message) {
           this.notification.showNotification(error.error.message, 'error');

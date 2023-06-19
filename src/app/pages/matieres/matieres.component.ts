@@ -13,7 +13,7 @@ import {
 export class MatieresComponent {
   matieres!: Matiere[];
   displayedColumns: string[] = ['imagePath', 'nom', 'professeur', 'action'];
-
+  isLoading = false;
   constructor(
     public matieresService: MatieresService,
     private dialog: MatDialog
@@ -24,12 +24,15 @@ export class MatieresComponent {
   }
 
   getMatieres() {
+    this.isLoading = true;
     this.matieresService.getMatieres().subscribe(response => {
       this.matieres = response;
+      this.isLoading = false;
     })
   }
 
   openModalDelete(row: Matiere) {
+    this.isLoading = true;
     const dialogRef: MatDialogRef<ModalConfirmationDeleteComponent> = this.dialog.open(ModalConfirmationDeleteComponent, {
       width: '600px',
       data: {
@@ -41,6 +44,7 @@ export class MatieresComponent {
     // Vous pouvez également écouter les événements de la modal si nécessaire
     dialogRef.afterClosed().subscribe(result => {
       if (result) this.getMatieres()
+        this.isLoading = false;
     });
   }
 }

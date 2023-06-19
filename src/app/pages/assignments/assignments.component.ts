@@ -28,6 +28,7 @@ export class AssignmentsComponent {
   role = ROLE;
   matiereList: Matiere[] = [];
   matiereIdFilter!: string;
+  isLoading = false;
   constructor(
     private matieresService: MatieresService,
     public authservice: AuthService,
@@ -43,12 +44,13 @@ export class AssignmentsComponent {
 
   getMatieres() {
     let filter;
+    this.isLoading=true;
     if (this.matiereIdFilter) {
       filter = { idMatiere: this.matiereIdFilter }
     }
     this.matieresService.getMatieres(filter).subscribe(resp => {
       this.matiereList = resp;
-
+      this.isLoading=false;
       // this.setAssignmentData()
     })
   }
@@ -101,6 +103,7 @@ export class AssignmentsComponent {
   }
 
   openModal() {
+    this.isLoading=true;
     const dialogRef: MatDialogRef<ModalRendreAssignmentComponent> = this.dialog.open(ModalRendreAssignmentComponent, {
       width: '600px',
       data: {
@@ -112,6 +115,7 @@ export class AssignmentsComponent {
     // Vous pouvez également écouter les événements de la modal si nécessaire
     dialogRef.afterClosed().subscribe(result => {
       this.assignmentToRendre = undefined;
+      this.isLoading=false;
     });
   }
 

@@ -39,11 +39,12 @@ export class EditAssignmentComponent implements OnInit {
     // Exemple de récupération du fragment (après le # dans l'url)
     const fragment = this.route.snapshot.fragment;
     console.log("Fragment = " + fragment);
-
+    this.isLoading = true;
     this.assignmentsService.getAssignment(id)
       .subscribe((assignment) => {
         if (!assignment) return;
         this.assignment = assignment;
+        this.isLoading = false;
       });
   }
 
