@@ -5,14 +5,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { serializeFormData } from '../helpers/helpers';
 import { User } from '../../model/user'
 import { Router } from '@angular/router';
+import { ENDPOINT } from '../helpers/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  // uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/auth';
-  uri_api = 'http://localhost:8010/api/auth';
+  uri_api = `${ENDPOINT}auth`;
   private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) { }

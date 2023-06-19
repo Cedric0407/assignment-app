@@ -3,6 +3,7 @@ import { Observable, catchError, forkJoin, map, of, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from 'src/app/model/user';
+import { ENDPOINT } from '../helpers/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class UsersService {
     private http: HttpClient
   ) { }
 
-  uri_api = 'http://localhost:8010/api/users';
-
+  uri_api = `${ENDPOINT}users`;
+  
   getUsers(): Observable<any> {
 
     const headers = new HttpHeaders()

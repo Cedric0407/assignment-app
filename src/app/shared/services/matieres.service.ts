@@ -3,6 +3,7 @@ import { Observable, catchError, forkJoin, map, of, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Matiere } from 'src/app/model/matiere';
+import { ENDPOINT } from '../helpers/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,9 @@ export class MatieresService {
     private http: HttpClient
   ) { }
 
-  uri_api = 'http://localhost:8010/api/matieres';
+  uri_api = `${ENDPOINT}matieres`;
 
+  
   getMatieres(filter: { idMatiere?: string; } = undefined): Observable<any> {
 
     let renduFilter = '';

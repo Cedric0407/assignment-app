@@ -3,3 +3,8 @@ export const ROLE = {
   professeur: "professeur",
   etudiant: "etudiant"
 }
+
+export const ENDPOINT = "https://mbdsmagascar2022-2023cedric-05tsiory-09.onrender.com/api/";
+// export const ENDPOINT = "http://localhost:8010/api/";
+
+

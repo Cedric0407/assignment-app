@@ -5,6 +5,7 @@ import { LoggingService } from './logging.service';
 import { AuthService } from './auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { bdInitialAssignments } from '../data/data';
+import { ENDPOINT } from '../helpers/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,7 @@ export class AssignmentsService {
     private authService: AuthService,
     private http: HttpClient) { }
 
-  uri_api = 'http://localhost:8010/api/assignments';
-  // uri_api = 'https://mbds-madagascar-2022-2023-back-end.onrender.com/api/assignments';
+  uri_api = `${ENDPOINT}assignments`;
 
   getAssignments(page: number, limit: number, filter: { rendu?: boolean; idMatiere?: string; idEtudiant?: string } = undefined): Observable<any> {
 
