@@ -1,3 +1,39 @@
+# Gestion de rendu du devoir
+## Contribution
+### 05-Cédric
+- Authentification à l'aide de JSON du login
+- Drag and drop entre la liste des Assignments non rendus et rendus
+- Affichage des Assignments dans deux onglets séparés
+- Amélioration du design du projet
+- Ajout matière et d' autres propriétés sur les Assignements
+- Filtre matière et devoir (app)
+- Edition et suppression des assignements (app)
+
+
+### 09-Tsiory
+- Ajout des filtres, filtre par id pour les matières, filtre étudiant/matière pour les devoirs
+- Edition de l' Assignement (api)
+- Ajout des informations du détails dans l' Assignement
+- Ajout preview pdf dans l' Assignement
+- Déploiement et hébergement sur Render
+- Vidéo de démonstration
+
+## Mise en place du projet sur votre machine
+### Back
+- Copier le code sur le lien sur git: https://github.com/Cedric0407/assignment-api.git
+- Executer la commande "npm install"
+- Démarrer le serveur "node server.js"
+
+
+### Front
+- Copier le code sur le  lien sur git: https://github.com/Cedric0407/assignment-app.git
+- Executer la commande "npm install"
+- Lancer le projet "ng serve"
+
+### Remarque
+- Le preview pdf ne marche pas si vous avez un IDM sur votre machine
+
+
 # AssignmentApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.1.
@@ -25,3 +61,4 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
