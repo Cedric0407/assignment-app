@@ -39,11 +39,14 @@ export class EditMatiereComponent {
 
     this._id = this.route.snapshot.params['id'];
     this.isLoading = true;
-
     this.usersService.getUsers().subscribe(resp => {
       this.professeurList = resp.filter((elt: User) => elt.role === ROLE.professeur);
       this.initData();
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     })
+
   }
 
   initData() {
@@ -52,6 +55,9 @@ export class EditMatiereComponent {
       console.log(value)
       this.matiereForm.patchValue(value);
       this.isLoading = false;
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     })
   }
 
@@ -59,6 +65,7 @@ export class EditMatiereComponent {
     if (this.matiereForm.invalid) {
       return;
     }
+
     this.isLoading = true;
     const professeur = this.professeurList.find(elt => elt._id === this.matiereForm.get('profId')?.value)
     const matiere = {
@@ -70,7 +77,11 @@ export class EditMatiereComponent {
       this.isLoading = false;
       this.notification.showNotification("Maitère enregistrée", "success");
       this.router.navigateByUrl("matieres")
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     });
+
 
   }
 

@@ -6,6 +6,8 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalConfirmationDeleteComponent } from 'src/app/shared/components/modal-confirmation-delete/modal-confirmation-delete.component';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+
 @Component({
   selector: 'app-assignments-datalist',
   templateUrl: './assignments-datalist.component.html',
@@ -33,7 +35,9 @@ export class AssignmentsDatalistComponent {
     public authservice: AuthService,
     private assignmentsService: AssignmentsService,
     private route: ActivatedRoute,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private notification: NotificationService
+
   ) { }
 
 
@@ -70,6 +74,7 @@ export class AssignmentsDatalistComponent {
     if (this.matiereIdFilter) {
       filter.idMatieres = [this.matiereIdFilter]
     }
+
     this.assignmentsService.getAssignmentsQuery(this.page, this.limit, filter)
       .subscribe(data => {
         this.assignments = data.docs;
@@ -83,7 +88,10 @@ export class AssignmentsDatalistComponent {
         this.nextPage = data.nextPage;
 
         console.log("Données reçues", data);
+      }, error => {
+        this.notification.showNotification("Erreur serveur", "error");
       });
+
   }
 
   premierePage() {

@@ -36,12 +36,15 @@ export class AddMatiereComponent {
       imageFile: ['', Validators.required]
     });
     this.isLoading = true;
-
     this.usersService.getUsers(false).subscribe(resp => {
       this.professeurList = resp.filter((elt: User) => elt.role === ROLE.professeur);
       this.isLoading = false;
       // this.setAssignmentData()
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     })
+
   }
 
   /*setAssignmentData() { // insertion des auteurs dans les données existantes
@@ -64,6 +67,7 @@ export class AddMatiereComponent {
     if (this.matiereForm.invalid) {
       return;
     }
+
     this.isLoading = true;
     const professeur = this.professeurList.find(elt => elt._id === this.matiereForm.get('profId')?.value)
     const matiere = {
@@ -74,7 +78,11 @@ export class AddMatiereComponent {
       this.isLoading = false;
       this.notification.showNotification("Maitère enregistrée", "success");
       this.route.navigateByUrl("matieres")
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     });
+
 
   }
 

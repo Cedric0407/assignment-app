@@ -1,5 +1,8 @@
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
 
+<button mat-button (click)="back()">
+  <mat-icon>keyboard_backspace</mat-icon> Retour
+</button>
 <mat-card class="card-detail">
   <div class="header">
     <div class="header-title-container">
@@ -21,13 +24,17 @@
         <img
           class="matiere-img"
           [src]="
-            (isProf ? assignmentTransmis?.auteur?.imagePath : assignmentTransmis?.matiere?.professeur?.imagePath) ??
+            (isProf
+              ? assignmentTransmis?.auteur?.imagePath
+              : assignmentTransmis?.matiere?.professeur?.imagePath) ??
             'assets/img/avatar.png'
           "
         />
       </div>
       <mat-card-title>{{
-        (isProf ? assignmentTransmis?.auteur?.nom : assignmentTransmis?.matiere?.professeur?.nom) ?? "n/a"
+        (isProf
+          ? assignmentTransmis?.auteur?.nom
+          : assignmentTransmis?.matiere?.professeur?.nom) ?? "n/a"
       }}</mat-card-title>
     </div>
   </div>
@@ -82,7 +89,7 @@
       </button>
     </div>
 
-    <div *ngIf="isFilePdf; else imagePreview">
+    <div *ngIf="isFilePdf; else imagePreview" class="pdf-viewer-container">
       <pdf-viewer
         [src]="assignmentTransmis?.filePath"
         [original-size]="true"

@@ -22,7 +22,13 @@ export class EditAssignmentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getAssignment();
+    try {
+      this.getAssignment();
+    } catch (error) {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
+    }
+
   }
   getAssignment() {
     // on récupère l'id dans le snapshot passé par le routeur
@@ -39,13 +45,18 @@ export class EditAssignmentComponent implements OnInit {
     // Exemple de récupération du fragment (après le # dans l'url)
     const fragment = this.route.snapshot.fragment;
     console.log("Fragment = " + fragment);
+
     this.isLoading = true;
     this.assignmentsService.getAssignment(id)
       .subscribe((assignment) => {
         if (!assignment) return;
         this.assignment = assignment;
         this.isLoading = false;
+      }, error => {
+        this.isLoading = false;
+        this.notification.showNotification("Erreur serveur", "error");
       });
+
   }
 
   onSaveAssignment() {
@@ -55,6 +66,7 @@ export class EditAssignmentComponent implements OnInit {
       this.assignment.note = undefined
       this.assignment.remarques = undefined
     }
+
     this.assignmentsService
       .updateAssignment(this.assignment)
       .subscribe((message) => {
@@ -66,6 +78,7 @@ export class EditAssignmentComponent implements OnInit {
         this.isLoading = false;
         this.notification.showNotification('Une erreur s\est survenue.', 'error');
       });
+
   }
 
   cancel() {

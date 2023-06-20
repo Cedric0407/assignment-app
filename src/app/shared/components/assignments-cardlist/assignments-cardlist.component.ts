@@ -5,6 +5,8 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { ROLE } from '../../helpers/constants';
 import { Matiere } from 'src/app/model/matiere';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+
 @Component({
   selector: 'app-assignments-cardlist',
   templateUrl: './assignments-cardlist.component.html',
@@ -33,7 +35,9 @@ export class AssignmentsCardlistComponent implements OnChanges {
   constructor(
     public authservice: AuthService,
     private assignmentsService: AssignmentsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notification: NotificationService
+
   ) { }
 
 
@@ -72,6 +76,7 @@ export class AssignmentsCardlistComponent implements OnChanges {
     } else if (this.authservice.userRole === ROLE.professeur) {
       filter.idMatieres = this.matiereList.map(elt => elt._id)
     }
+
     this.assignmentsService.getAssignmentsQuery(this.page, this.limit, filter)
       .subscribe(data => {
         this.assignments = data.docs;
@@ -85,7 +90,10 @@ export class AssignmentsCardlistComponent implements OnChanges {
         this.nextPage = data.nextPage;
 
         console.log("Données reçues", data);
+      }, error => {
+        this.notification.showNotification("Erreur serveur", "error");
       });
+
   }
 
   getAddAssignmentsForScroll() {

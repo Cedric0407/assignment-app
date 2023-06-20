@@ -52,6 +52,10 @@
   border: 1px solid #dadada;
 }
 
+.pdf-viewer-container {
+  overflow: auto;
+}
+
 .preview-title {
   margin: 1em 0;
   border-top: 1px solid;
@@ -61,6 +65,7 @@
 .image-preview-container {
   width: 100%;
   text-align: center;
+  overflow: auto;
 }
 
 .img-preview {

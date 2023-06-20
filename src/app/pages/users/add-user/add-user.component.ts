@@ -39,6 +39,7 @@ export class AddUserComponent {
     if (this.userForm.invalid) {
       return;
     }
+
     this.isLoading = true;
     const user = {
       email: this.userForm.get('email')?.value,
@@ -49,7 +50,11 @@ export class AddUserComponent {
       this.isLoading = false;
       this.notification.showNotification("Utilisateur enregistré", "success");
       this.route.navigateByUrl("users")
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     });
+
 
   }
 

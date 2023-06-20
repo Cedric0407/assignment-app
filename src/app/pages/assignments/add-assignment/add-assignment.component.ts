@@ -49,14 +49,14 @@ export class AddAssignmentComponent {
 
   ngOnInit() {
     this.isLoading = true;
-
-    forkJoin({req1:this.matieresService.getMatieres() , req2: this.usersService.getUsers()}).subscribe(resp =>{
+    forkJoin({ req1: this.matieresService.getMatieres(), req2: this.usersService.getUsers() }).subscribe(resp => {
       this.matiereList = resp.req1;
       this.etudiantList = resp.req2.filter((elt: User) => elt.role === ROLE.etudiant);
       this.isLoading = false;
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     })
-
-
   }
 
   get isAdmin() {
@@ -65,9 +65,13 @@ export class AddAssignmentComponent {
 
   submitAssignment() {
 
+
+
     if (this.infoFormGroup.invalid && this.uploadFormGroup.invalid) {
       return;
     }
+
+
     this.isLoading = true;
     const matiere = this.matiereList.find(elt => elt._id === this.infoFormGroup.get('matiereId')?.value)
     const assignment = new Assignment();
@@ -86,7 +90,12 @@ export class AddAssignmentComponent {
       this.isLoading = false;
       this.notification.showNotification("Devoir enregistrée", "success");
       this.router.navigateByUrl("assignments")
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     });
+
+
   }
 
   onImageSelected(event: any) {

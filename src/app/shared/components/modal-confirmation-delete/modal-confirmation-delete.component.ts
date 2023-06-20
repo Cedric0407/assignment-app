@@ -44,6 +44,7 @@ export class ModalConfirmationDeleteComponent {
     }, err => {
       this.hanldeError();
     })
+
   }
   deleteAssignment() {
     this.isSaving = true;

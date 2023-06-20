@@ -4,6 +4,7 @@ import { AssignmentsService } from 'src/app/shared/services/assignments.service'
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { ROLE } from 'src/app/shared/helpers/constants';
+import { NotificationService } from 'src/app/shared/services/notification.service';
 
 import { ModalRendreAssignmentComponent } from '../../../shared/components/modal-rendre-assignment/modal-rendre-assignment.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -21,6 +22,7 @@ export class AssignmentDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
+    private notification: NotificationService,
     private dialog: MatDialog
   ) { }
 
@@ -35,8 +37,11 @@ export class AssignmentDetailComponent implements OnInit {
     this.assignmentsService.getAssignment(id)
       .subscribe(assignment => {
         this.assignmentTransmis = assignment;
-        console.log("this.assignmentTransmis" , this.assignmentTransmis)
+        console.log("this.assignmentTransmis", this.assignmentTransmis)
         this.isLoading = false;
+      }, error => {
+        this.isLoading = false;
+        this.notification.showNotification("Erreur serveur", "error");
       });
 
     this.authService.isAdmin().then(resp => {
@@ -58,12 +63,16 @@ export class AssignmentDetailComponent implements OnInit {
         this.isLoading = false;
         // et on navigue vers la page d'accueil
         this.router.navigate(["/home"]);
+      }, error => {
+        this.isLoading = false;
+        this.notification.showNotification("Erreur serveur", "error");
       });
 
   }
 
   onAssignmentRendu() {
     if (!this.assignmentTransmis) return;
+
     this.isLoading = true;
     this.assignmentTransmis.rendu = true;
 
@@ -72,7 +81,11 @@ export class AssignmentDetailComponent implements OnInit {
       .subscribe(message => {
         console.log(message);
         this.isLoading = false;
+      }, error => {
+        this.isLoading = false;
+        this.notification.showNotification("Erreur serveur", "error");
       });
+
   }
 
   onEditAssignment() {
@@ -114,7 +127,11 @@ export class AssignmentDetailComponent implements OnInit {
 
     // Vous pouvez également écouter les événements de la modal si nécessaire
     dialogRef.afterClosed().subscribe(result => {
-      if(result)this.assignmentTransmis = result.assignment;
+      if (result) this.assignmentTransmis = result.assignment;
     });
+  }
+
+  back() {
+    window.history.back();
   }
 }

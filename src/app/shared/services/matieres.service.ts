@@ -16,7 +16,7 @@ export class MatieresService {
 
   uri_api = `${ENDPOINT}api/matieres`;
 
-  
+
   getMatieres(filter: { idMatiere?: string; } = undefined): Observable<any> {
 
     let renduFilter = '';
@@ -30,16 +30,16 @@ export class MatieresService {
       .set('x-access-token', encodeURIComponent(this.authService.token as string));
 
     return this.http.get<Matiere[]>(this.uri_api + "?" + renduFilter, { headers }).pipe(
-      map(matieres =>{
-        matieres.map(matiere =>{
-            if(matiere.imagePath){
-              matiere.imagePath = ENDPOINT + matiere.imagePath;
-            }
-            return matiere;
-          })
-           return matieres;
+      map(matieres => {
+        matieres.map(matiere => {
+          if (matiere.imagePath) {
+            matiere.imagePath = ENDPOINT + matiere.imagePath;
+          }
+          return matiere;
         })
-      )
+        return matieres;
+      })
+    )
 
   }
 
@@ -48,8 +48,8 @@ export class MatieresService {
 
     return this.http.get<Matiere | undefined>(`${this.uri_api}/${id}`, { headers })
       .pipe(
-        map(matiere =>{
-          if(matiere.imagePath){
+        map(matiere => {
+          if (matiere.imagePath) {
             matiere.imagePath = ENDPOINT + matiere.imagePath;
           }
           return matiere;
@@ -71,7 +71,12 @@ export class MatieresService {
     const uploadData = new FormData();
     for (let property in matiere) {
       if (matiere[property]) {
-        if (property === 'professeur') uploadData.append(property, JSON.stringify(matiere[property]));
+        if (property === 'professeur') {
+          if (matiere.professeur?.imagePath?.includes(ENDPOINT)) {
+            matiere.professeur.imagePath = matiere.professeur.imagePath.replace(ENDPOINT, '');
+          }
+          uploadData.append(property, JSON.stringify(matiere[property]));
+        }
         else uploadData.append(property, matiere[property]);
       }
     }
@@ -86,7 +91,15 @@ export class MatieresService {
     const uploadData: any = { _id: matiere._id };
     for (let property in matiere) {
       if (matiere[property]) {
-        if (property === 'professeur') uploadData[property] = JSON.stringify(matiere[property]);
+        if (property === 'imagePath' && matiere.imagePath?.includes(ENDPOINT)) {
+          continue;
+        } else if (property === 'professeur') {
+          if (matiere.professeur?.imagePath?.includes(ENDPOINT)) {
+            matiere.professeur.imagePath = matiere.professeur.imagePath.replace(ENDPOINT, '');
+
+          }
+          uploadData[property] = JSON.stringify(matiere[property]);
+        }
         else uploadData[property] = matiere[property];
       }
     }

@@ -27,19 +27,18 @@ export class ModalRendreAssignmentComponent implements OnInit {
   }
 
   save() {
-    // Effectuez les opérations nécessaires pour enregistrer la note et les remarques
     this.assignmentsService.updateAssignment(this.assignment).subscribe(resp => {
       if (this.nonRenduElt) {
         this.nonRenduElt.getAssignments();
-        this.notification.showNotification("Modification enregistrée", "success");
-      } else {
-        this.notification.showNotification("Modification enregistrée", "success");
       }
+      this.notification.showNotification("Modification enregistrée", "success");
     }, error => {
       if (this.nonRenduElt) this.nonRenduElt.getAssignments();
       this.notification.showNotification("Une erreur s'est produite", "error");
     });
     this.dialogRef.close({ assignment: this.assignment });
+    // Effectuez les opérations nécessaires pour enregistrer la note et les remarques
+
   }
 
   close() {

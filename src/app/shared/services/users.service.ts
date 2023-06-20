@@ -16,26 +16,26 @@ export class UsersService {
   ) { }
 
   uri_api = `${ENDPOINT}api/users`;
-  
-  getUsers( format = true): Observable<any> {
+
+  getUsers(format = true): Observable<any> {
 
     const headers = new HttpHeaders()
       .set('x-access-token', encodeURIComponent(this.authService.token as string));
 
     return this.http.get<User[]>(this.uri_api, { headers })
-    .pipe(
-      map(users =>{
+      .pipe(
+        map(users => {
 
-        if(!format) return users
-        users.map(user =>{
-            if(user.imagePath){
+          if (!format) return users
+          users.map(user => {
+            if (user.imagePath) {
               user.imagePath = ENDPOINT + user.imagePath;
             }
             return user;
           })
-         return users;
-      })
-    );
+          return users;
+        })
+      );
 
   }
 
@@ -43,13 +43,13 @@ export class UsersService {
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
 
     return this.http.get<User | undefined>(`${this.uri_api}/${id}`, { headers })
-    .pipe(
-      map( user =>{
-        if(user.imagePath){
-          user.imagePath = ENDPOINT+user.imagePath
-        }
-        return user
-      })
+      .pipe(
+        map(user => {
+          if (user.imagePath) {
+            user.imagePath = ENDPOINT + user.imagePath
+          }
+          return user
+        })
       )
 
   }
@@ -84,6 +84,10 @@ export class UsersService {
     const uploadData = { ...user };
     uploadData['image'] = imageFile ?? null;
     if (password) uploadData['password'] = password;
+
+    if (user.imagePath?.includes(ENDPOINT)) {
+      delete uploadData.imagePath;
+    }
 
     return this.http.put<User>(this.uri_api, uploadData, { headers });
   }

@@ -37,7 +37,9 @@ export class EditUserComponent {
     });
     this.userForm.setValidators(this.passwordMatchValidator);
     this._id = this.route.snapshot.params['id'];
+
     this.initData();
+
   }
 
   initData() {
@@ -46,6 +48,9 @@ export class EditUserComponent {
       const value = { email: rep.email, name: rep.nom, role: rep.role };
       this.userForm.patchValue(value);
       this.isLoading = false;
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     })
   }
 
@@ -53,6 +58,7 @@ export class EditUserComponent {
     if (this.userForm.invalid) {
       return;
     }
+
     this.isLoading = true;
     const user = {
       _id: this._id,
@@ -64,7 +70,11 @@ export class EditUserComponent {
       this.isLoading = false;
       this.notification.showNotification("Utilisateur enregistré", "success");
       this.router.navigateByUrl("users")
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     });
+
 
   }
 

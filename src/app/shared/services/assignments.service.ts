@@ -34,25 +34,25 @@ export class AssignmentsService {
       .set('x-access-token', encodeURIComponent(this.authService.token as string));
 
     return this.http.get<any>(this.uri_api + "?page=" + page + "&limit=" + limit + renduFilter, { headers })
-    .pipe(
-        map((resp:any)  =>{
+      .pipe(
+        map((resp: any) => {
 
           const docs = resp.docs.map(doc => {
-            if(doc.filePath){
+            if (doc.filePath) {
               doc.filePath = ENDPOINT + doc.filePath;
             }
-            if(doc.matiere?.imagePath){
+            if (doc.matiere?.imagePath) {
               doc.matiere.imagePath = ENDPOINT + doc.matiere.imagePath
-              if(doc.matiere.professeur?.imagePath){
+              if (doc.matiere.professeur?.imagePath) {
                 doc.matiere.professeur.imagePath = ENDPOINT + doc.matiere.professeur.imagePath
               }
             }
-            if(doc.auteur?.imagePath){
+            if (doc.auteur?.imagePath) {
               doc.auteur.imagePath = ENDPOINT + doc.auteur.imagePath
             }
             return doc;
           })
-          return {...resp , docs};
+          return { ...resp, docs };
         })
       );
     // of() permet de créer un Observable qui va
@@ -76,24 +76,24 @@ export class AssignmentsService {
 
     return this.http.post<any>(this.uri_api + "/filter", body, { headers })
       .pipe(
-        map(resp =>{
+        map(resp => {
 
           const docs = resp.docs.map(doc => {
-            if(doc.filePath){
+            if (doc.filePath) {
               doc.filePath = ENDPOINT + doc.filePath;
             }
-            if(doc.matiere?.imagePath){
+            if (doc.matiere?.imagePath) {
               doc.matiere.imagePath = ENDPOINT + doc.matiere.imagePath
-              if(doc.matiere.professeur?.imagePath){
+              if (doc.matiere.professeur?.imagePath) {
                 doc.matiere.professeur.imagePath = ENDPOINT + doc.matiere.professeur.imagePath
               }
             }
-            if(doc.auteur?.imagePath){
+            if (doc.auteur?.imagePath) {
               doc.auteur.imagePath = ENDPOINT + doc.auteur.imagePath
             }
             return doc;
           })
-          return {...resp , docs};
+          return { ...resp, docs };
         })
       );
 
@@ -124,15 +124,15 @@ export class AssignmentsService {
           if (a.filePath) {
             a.filePath = ENDPOINT + a.filePath;
           }
-            if(a.matiere?.imagePath){
-              a.matiere.imagePath = ENDPOINT + a.matiere.imagePath
-              if(a.matiere.professeur?.imagePath){
-                a.matiere.professeur.imagePath = ENDPOINT + a.matiere.professeur.imagePath
-              }
+          if (a.matiere?.imagePath) {
+            a.matiere.imagePath = ENDPOINT + a.matiere.imagePath
+            if (a.matiere.professeur?.imagePath) {
+              a.matiere.professeur.imagePath = ENDPOINT + a.matiere.professeur.imagePath
             }
-            if(a.auteur?.imagePath){
-              a.auteur.imagePath = ENDPOINT + a.auteur.imagePath
-            }
+          }
+          if (a.auteur?.imagePath) {
+            a.auteur.imagePath = ENDPOINT + a.auteur.imagePath
+          }
           return a;
         })
       )
@@ -179,7 +179,20 @@ export class AssignmentsService {
     const uploadData = new FormData();
     for (let property in assignment) {
       if (assignment[property]) {
-        if (property === 'matiere' || property === 'auteur') uploadData.append(property, JSON.stringify(assignment[property]));
+        if (property === 'matiere' || property === 'auteur') {
+          if (property === 'matiere' && assignment.matiere?.imagePath?.includes(ENDPOINT)) {
+            assignment.matiere.imagePath = assignment.matiere?.imagePath.replace(ENDPOINT, '');
+          }
+          if (property === 'matiere' && assignment.matiere?.professeur?.imagePath?.includes(ENDPOINT)) {
+            assignment.matiere.professeur.imagePath = assignment.matiere?.professeur?.imagePath.replace(ENDPOINT, '');
+          }
+
+          if (property === 'auteur' && assignment.auteur?.imagePath?.includes(ENDPOINT)) {
+            assignment.auteur.imagePath = assignment.auteur?.imagePath.replace(ENDPOINT, '');
+          }
+          console.log(property, assignment[property])
+          uploadData.append(property, JSON.stringify(assignment[property]));
+        }
         else uploadData.append(property, assignment[property]);
       }
     }
@@ -192,6 +205,16 @@ export class AssignmentsService {
     // Normalement : on appelle un web service pour l'update des
     // données
     const headers = new HttpHeaders().set('x-access-token', this.authService.token as string);
+    if (assignment.filePath?.includes(ENDPOINT)) {
+      delete assignment.filePath;
+    }
+
+    if (assignment.matiere?.imagePath?.includes(ENDPOINT)) {
+      assignment.matiere.imagePath = assignment.matiere.imagePath.replace(ENDPOINT, '');
+    }
+    if (assignment.matiere?.professeur?.imagePath?.includes(ENDPOINT)) {
+      assignment.matiere.professeur.imagePath = assignment.matiere.professeur.imagePath.replace(ENDPOINT, '');
+    }
 
     return this.http.put<Assignment>(this.uri_api, assignment, { headers });
 

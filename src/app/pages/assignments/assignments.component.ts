@@ -12,6 +12,8 @@ import { ROLE } from 'src/app/shared/helpers/constants';
 import { MatieresService } from '../../shared/services/matieres.service';
 import { Matiere } from 'src/app/model/matiere';
 import { AssignmentsService } from 'src/app/shared/services/assignments.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+
 @Component({
   selector: 'app-assignments',
   templateUrl: './assignments.component.html',
@@ -34,24 +36,29 @@ export class AssignmentsComponent {
     public authservice: AuthService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
+    private notification: NotificationService,
     private assignmentsService: AssignmentsService
 
   ) { }
 
   ngOnInit(): void {
     this.getMatieres()
+
   }
 
   getMatieres() {
     let filter;
-    this.isLoading=true;
+    this.isLoading = true;
     if (this.matiereIdFilter) {
       filter = { idMatiere: this.matiereIdFilter }
     }
     this.matieresService.getMatieres(filter).subscribe(resp => {
       this.matiereList = resp;
-      this.isLoading=false;
+      this.isLoading = false;
       // this.setAssignmentData()
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     })
   }
 
@@ -103,7 +110,7 @@ export class AssignmentsComponent {
   }
 
   openModal() {
-    this.isLoading=true;
+    this.isLoading = true;
     const dialogRef: MatDialogRef<ModalRendreAssignmentComponent> = this.dialog.open(ModalRendreAssignmentComponent, {
       width: '600px',
       data: {
@@ -115,7 +122,7 @@ export class AssignmentsComponent {
     // Vous pouvez également écouter les événements de la modal si nécessaire
     dialogRef.afterClosed().subscribe(result => {
       this.assignmentToRendre = undefined;
-      this.isLoading=false;
+      this.isLoading = false;
     });
   }
 

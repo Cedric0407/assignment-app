@@ -5,6 +5,8 @@ import { ModalConfirmationDeleteComponent } from 'src/app/shared/components/moda
 import {
   MatieresService
 } from 'src/app/shared/services/matieres.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+
 @Component({
   selector: 'app-matieres',
   templateUrl: './matieres.component.html',
@@ -16,19 +18,28 @@ export class MatieresComponent {
   isLoading = false;
   constructor(
     public matieresService: MatieresService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private notification: NotificationService
+
   ) { }
 
   ngOnInit() {
+
     this.getMatieres()
+
   }
 
   getMatieres() {
+
     this.isLoading = true;
     this.matieresService.getMatieres().subscribe(response => {
       this.matieres = response;
       this.isLoading = false;
+    }, error => {
+      this.isLoading = false;
+      this.notification.showNotification("Erreur serveur", "error");
     })
+
   }
 
   openModalDelete(row: Matiere) {
@@ -44,7 +55,7 @@ export class MatieresComponent {
     // Vous pouvez également écouter les événements de la modal si nécessaire
     dialogRef.afterClosed().subscribe(result => {
       if (result) this.getMatieres()
-        this.isLoading = false;
+      this.isLoading = false;
     });
   }
 }
