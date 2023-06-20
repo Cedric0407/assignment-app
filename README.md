@@ -1,19 +1,25 @@
 # Gestion de rendu du devoir
+## Description du projt
+-Le projet vise à créer une plateforme permettant aux étudiants de soumettre leurs devoirs par matière et aux professeurs de les noter directement. Il est composé de trois espaces distincts : un espace dédié à l'administration, un espace réservé aux professeurs et un espace réservé aux étudiants.
+
 ## Contribution
 ### 05-Cédric
-- Authentification à l'aide de JSON du login
-- Drag and drop entre la liste des Assignments non rendus et rendus
+- Authentification avec JWT
+- Drag and drop pour rendre un devoir non rendus en rendu
 - Affichage des Assignments dans deux onglets séparés
 - Amélioration du design du projet
-- Ajout matière et d' autres propriétés sur les Assignements
-- Filtre matière et devoir (app)
-- Edition et suppression des assignements (app)
+- CRUD professeur, CRUD matière , CRUD assignment
+- Page des listes et d'ajout de chaque modèle
+- Filtre des devoirs par matière
+- api
 
 ### 09-Tsiory
-- Ajout des filtres, filtre par id pour les matières, filtre étudiant/matière pour les devoirs
-- Edition de l' Assignement (api)
+- Application des filtres et gestion des vues selon le rôle de l'utilisateur connecté( Admin, professeur ou étudiant)
+- api
+- pages des mise à jours de chaque modèle
 - Ajout des informations du détails dans l' Assignement
 - Ajout preview pdf dans l' Assignement
+- gestion des erreurs dans l'app
 - Déploiement et hébergement sur Render
 - Vidéo de démonstration
 
@@ -33,7 +39,7 @@
 - Login en tant que prof: richard@richard.com mdp:123456
 
 ### Remarque
-- Le preview pdf ne marche pas si vous avez un IDM sur votre machine
+- Le preview pdf ne marche pas si vous avez un logiciel de téléchargement tel que IDM sur votre machine
 
 # Lien de la vidéo démo
 
