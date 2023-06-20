@@ -9,7 +9,6 @@
 - Filtre matière et devoir (app)
 - Edition et suppression des assignements (app)
 
-
 ### 09-Tsiory
 - Ajout des filtres, filtre par id pour les matières, filtre étudiant/matière pour les devoirs
 - Edition de l' Assignement (api)
@@ -24,14 +23,19 @@
 - Executer la commande "npm install"
 - Démarrer le serveur "node server.js"
 
-
 ### Front
 - Copier le code sur le  lien sur git: https://github.com/Cedric0407/assignment-app.git
 - Executer la commande "npm install"
 - Lancer le projet "ng serve"
+    Pour tester l' application, on a mis ces login:
+- Login en tant qu' admin: admin@admin.com mdp:123456
+- Login en tant qu' étudiant: tsiory@tsiory.com mdp:123456
+- Login en tant que prof: richard@richard.com mdp:123456
 
 ### Remarque
 - Le preview pdf ne marche pas si vous avez un IDM sur votre machine
+
+# Lien de la vidéo démo
 
 
 # AssignmentApp
